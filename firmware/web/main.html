@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'>
+	<title>Blaster initial config</title>
+
+	<script defer>
+    function generateId() {
+      var id = Math.random().toString(36).substring(2, 8);
+      var input = document.getElementById('id');
+      input.value = id;
+    }
+
+    function load() {
+      function listener() {
+        if (this.status === 200)
+        {
+          var fields = JSON.parse(this.responseText);
+          document.getElementById('id').value = fields.id;
+          document.getElementById('ssid').value = fields.ssid;
+          document.getElementById('pass').value = fields.pass;
+          document.getElementById('mqtt_host').value = fields.mqtt_host;
+          document.getElementById('mqtt_port').value = fields.mqtt_port;
+        } else {
+          console.warn('error while read or empty');
+        }
+      }
+
+      var req = new XMLHttpRequest();
+      req.addEventListener("load", listener);
+      req.open("GET", "/load");
+      req.send();
+    }
+  </script>
+</head>
+
+<body>
+
+  <h2>Blaster initial config</h2>
+
+  <form action="/submit" method="POST">
+    <label for="ssid">SSID:</label><br>
+    <input type="text" id="ssid" name="ssid" value=""><br>
+    <label for="pass">Password:</label><br>
+    <input type="password" id="pass" name="pass" value=""><br><br>
+    <label for="id">Blaster ID:</label><br>
+    <input type="text" id="id" name="id" value="johndoe"> <button type="button" onclick="generateId()">gen.</button><br><br>
+    <label for="mqtt_host">MQTT host:</label><br>
+    <input type="text" id="mqtt_host" name="mqtt_host" value="192.168.6.150"><br><br>
+    <label for="mqtt_port">MQTT port:</label><br>
+    <input type="text" id="mqtt_port" name="mqtt_port" value="1883"><br><br>
+    <input type="submit" value="Save and reboot"> <button type="button" onclick="load()">Load config</button>
+  </form>
+
+</body>
+</html>
