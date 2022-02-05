@@ -11,6 +11,14 @@
 #define CAPABILITIES_JOIN           "\",\""
 #define CAPABILITIES_END            "\"]"
 
+#ifndef PEW_RX_PIN
+#define PEW_RX_PIN 2
+#endif
+
+#ifndef PEW_TX_PIN
+#define PEW_TX_PIN 13
+#endif
+
 extern const char* capabilities;
 
 typedef enum {

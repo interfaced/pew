@@ -19,6 +19,16 @@ pew.cpp_CFLAGS += -DENABLE_CAPABILITY_MODE_TRANSPARENT
 #pew.cpp_CFLAGS += -DENABLE_CAPABILITY_NETWORK_TOGGLE
 #pew.cpp_CFLAGS += -DENABLE_CAPABILITY_POWER_TOGGLE
 
+# CONFIGURATION
+BUILD_EXTRA_FLAGS += -DPEW_ENABLE_RX
+# (default: disabled)
+#BUILD_EXTRA_FLAGS += -DPEW_RX_PIN=14
+# (default: 13)
+BUILD_EXTRA_FLAGS += -DPEW_ENABLE_TX
+# (default: disabled)
+#BUILD_EXTRA_FLAGS += -DPEW_TX_PIN=2
+# (default: 2)
+
 web: $(WEB_MIN_SRC)
 	@echo "WEB_SIZE="$(shell du -b $(WEB_MIN_SRC) | awk '{ print $$1; }')
 

@@ -17,10 +17,6 @@
 
 #define WIFI_CONNECT_TIMEOUT_MS 10000
 #define MQTT_CONNECT_TIMEOUT_MS 15000
-#define CFG_AP_NAME "pew-config-ap"
-#define CFG_WEB_PORT 1337
-#define IR_RX_PIN 2
-#define IR_TX_PIN 13
 
 const IPAddress local_IP(192,168,4,22);
 const IPAddress gateway(192,168,4,9);
@@ -29,8 +25,8 @@ const IPAddress subnet(255,255,255,0);
 // glabals
 decode_results results;
 ESP8266WebServer server(CFG_WEB_PORT);
-IRrecv irrecv(IR_RX_PIN);
-IRsend irsend(IR_TX_PIN);
+IRrecv irrecv(PEW_RX_PIN);
+IRsend irsend(PEW_TX_PIN);
 Config cfg = CFG_ZERO;
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient);
@@ -67,8 +63,12 @@ void setup()
 			return;
 
 		PEWMQTT_init();
+#ifdef PEW_ENABLE_RX
 		irrecv.enableIRIn();
+#endif
+#ifdef PEW_ENABLE_TX
 		irsend.begin();
+#endif
 	}
 	else
 	{
@@ -92,7 +92,9 @@ void loop()
 			mqtt_connect();
 
 		mqttClient.loop();
+#ifdef PEW_ENABLE_RX
 		PEW_loop();
+#endif
 	}
 	else
 	{

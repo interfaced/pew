@@ -178,10 +178,10 @@ void PEWMQTT_publish_event(const Event* event)
 	if (event->type == EventType::EVENT_SIGNAL)
 	{
 		sprintf(msg, "{"
-				"\"type\": %d,"
-				"\"protocol\": %d,"
-				"\"code\": \"0x%" PRIX64 "\","
-				"\"nbits\": %d"
+				"\"type\":%d,"
+				"\"protocol\":%d,"
+				"\"code\":\"0x%" PRIX64 "\","
+				"\"nbits\":%d"
 				"}",
 				event->type,
 				event->data.signal.protocol,
@@ -192,8 +192,8 @@ void PEWMQTT_publish_event(const Event* event)
 	else if (event->type == EventType::EVENT_SLEEP)
 	{
 		sprintf(msg, "{"
-				"\"type\": %d,"
-				"\"ms\": %d"
+				"\"type\":%d,"
+				"\"ms\":%d"
 				"}",
 				event->type,
 				event->data.sleep.ms
@@ -205,8 +205,8 @@ void PEWMQTT_publish_event(const Event* event)
 static void state_as_json_str(char *buffer)
 {
   sprintf(buffer, "{"
-      "\"mode\": %d,"
-	  "\"status\": %d,"
-	  "\"capabilities\": %s"
+      "\"mode\":%d,"
+	  "\"status\":%d,"
+	  "\"capabilities\":%s"
       "}", deviceState.mode, deviceState.status, capabilities);
 }

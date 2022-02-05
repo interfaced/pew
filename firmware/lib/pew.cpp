@@ -67,6 +67,7 @@ void PEW_loop()
 
 void PEW_send_single_signal(EventSignal* signal)
 {
+#ifdef PEW_ENABLE_TX
 	if (deviceState.status == Status::STATUS_BUSY)
 	{
 		return;
@@ -75,11 +76,14 @@ void PEW_send_single_signal(EventSignal* signal)
 	deviceState.status = Status::STATUS_BUSY;
 	send_signal(signal);
 	deviceState.status = Status::STATUS_IDLE;
+#endif
 }
 
 static void send_signal(EventSignal* signal)
 {
+#ifdef PEW_ENABLE_TX
 	irsend.send(signal->protocol, signal->code, signal->nbits);
+#endif
 }
 
 static os_timer_t send_events_timer;
@@ -118,6 +122,7 @@ static void send_events()
 
 void PEW_send_events(Event* events, uint32_t size)
 {
+#ifdef PEW_ENABLE_TX
 	if (deviceState.status == Status::STATUS_BUSY)
 	{
 		return;
@@ -128,6 +133,7 @@ void PEW_send_events(Event* events, uint32_t size)
 	events_buffer_len = size;
 	os_timer_setfn(&send_events_timer, FUNC_T(send_events), (void*)0);
 	send_events();
+#endif
 }
 
 static void enable_irrecv()
