@@ -10,6 +10,7 @@
 #define TOPIC_OUTPUT "output"
 #define TOPIC_GET "get"
 #define TOPIC_SET "set"
+#define TOPIC_DISCONNECT "disconnect"
 #define INPUT_EVENTS_MAX_COUNT 256
 
 const uint32_t MQTT_BUFFER_CAPACITY = JSON_ARRAY_SIZE(INPUT_EVENTS_MAX_COUNT)

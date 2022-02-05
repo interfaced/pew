@@ -14,6 +14,24 @@ extern IRsend irsend;
 extern decode_results results;
 extern PubSubClient mqttClient;
 
+const char* capabilities = CAPABILITIES_BEGIN
+#ifdef ENABLE_CAPABILITY_MODE_WALL
+	CAPABILITY_MODE_WALL
+#endif
+#ifdef ENABLE_CAPABILITY_MODE_TRANSPARENT
+	CAPABILITIES_JOIN
+	CAPABILITY_MODE_TRANSPARENT
+#endif
+#ifdef ENABLE_CAPABILITY_POWER_TOGGLE
+	CAPABILITIES_JOIN
+	CAPABILITY_POWER_TOGGLE
+#endif
+#ifdef ENABLE_CAPABILITY_NETWORK_TOGGLE
+	CAPABILITIES_JOIN
+	CAPABILITY_NETWORK_TOGGLE
+#endif
+CAPABILITIES_END;
+
 namespace _IRrecv
 {
 	extern volatile irparams_t params;

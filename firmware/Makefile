@@ -1,4 +1,3 @@
-# My makefile
 ESP_ROOT = $(HOME)/Arduino/hardware/esp8266com/esp8266
 LIBS = $(HOME)/Arduino/libraries/IRremoteESP8266/src \
 	   $(HOME)/Arduino/libraries/pubsubclient/src \
@@ -13,6 +12,12 @@ BOARD = d1_mini
 
 WEB_SRC = web/main.html
 WEB_MIN_SRC = data/main.min.html
+
+# CAPABILITIES (comment/uncomment = disable/enable)
+pew.cpp_CFLAGS += -DENABLE_CAPABILITY_MODE_WALL
+pew.cpp_CFLAGS += -DENABLE_CAPABILITY_MODE_TRANSPARENT
+#pew.cpp_CFLAGS += -DENABLE_CAPABILITY_NETWORK_TOGGLE
+#pew.cpp_CFLAGS += -DENABLE_CAPABILITY_POWER_TOGGLE
 
 web: $(WEB_MIN_SRC)
 	@echo "WEB_SIZE="$(shell du -b $(WEB_MIN_SRC) | awk '{ print $$1; }')

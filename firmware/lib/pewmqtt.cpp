@@ -210,6 +210,7 @@ static void state_as_json_str(char *buffer)
 {
   sprintf(buffer, "{"
       "\"mode\": %d,"
-	  "\"status\": %d"
-      "}", deviceState.mode, deviceState.status);
+	  "\"status\": %d,"
+	  "\"capabilities\": %s"
+      "}", deviceState.mode, deviceState.status, capabilities);
 }

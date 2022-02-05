@@ -127,12 +127,15 @@ bool mqtt_connect()
 {
 	uint32_t start = millis();
 	Serial.printf("[MQTT] Connecting to [%s:%d] as %s\n", cfg.mqtt_host, cfg.mqtt_port, cfg.id);
+	char topic[256];
+	memset(topic, 0, 256);
+	sprintf(topic, "/" TOPIC_ROOT "/%s/" TOPIC_DISCONNECT, cfg.id);
 
 	while (!mqttClient.connected())
 	{
 		if (millis() - start < MQTT_CONNECT_TIMEOUT_MS)
 		{
-			if (!mqttClient.connect(cfg.id))
+			if (!mqttClient.connect(cfg.id, NULL, NULL, topic, 1, false, "1"))
 			{
 				delay(2000);
 				Serial.printf("[MQTT] State = %d\n", mqttClient.state());
