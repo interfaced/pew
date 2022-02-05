@@ -47,7 +47,7 @@ void PEW_loop()
 	if (RAW_BUF_FULL)
 	{
 		bool decode_status = irrecv.decode(&results);
-		if (decode_status && results.decode_type != decode_type_t::UNKNOWN)
+		if (decode_status && results.decode_type != decode_type_t::UNKNOWN && results.bits)
 		{
 			irrecv.disableIRIn();
 			Event event = Event{EventType::EVENT_SIGNAL};
@@ -61,7 +61,7 @@ void PEW_loop()
 			}
 		}
 		irrecv.resume();
-		delay_fn(500, FUNC_T(enable_irrecv));
+		delay_fn(100, FUNC_T(enable_irrecv));
 	}
 }
 

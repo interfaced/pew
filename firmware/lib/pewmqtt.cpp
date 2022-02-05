@@ -177,14 +177,12 @@ void PEWMQTT_publish_event(const Event* event)
 	memset(msg, 0, 256);
 	if (event->type == EventType::EVENT_SIGNAL)
 	{
-		sprintf(msg, "["
-				"{"
+		sprintf(msg, "{"
 				"\"type\": %d,"
 				"\"protocol\": %d,"
 				"\"code\": \"0x%" PRIX64 "\","
 				"\"nbits\": %d"
-				"}"
-				"]",
+				"}",
 				event->type,
 				event->data.signal.protocol,
 				event->data.signal.code,
@@ -193,12 +191,10 @@ void PEWMQTT_publish_event(const Event* event)
 	}
 	else if (event->type == EventType::EVENT_SLEEP)
 	{
-		sprintf(msg, "["
-				"{"
+		sprintf(msg, "{"
 				"\"type\": %d,"
 				"\"ms\": %d"
-				"}"
-				"]",
+				"}",
 				event->type,
 				event->data.sleep.ms
 			   );
