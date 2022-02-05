@@ -1,8 +1,8 @@
-import {IRBlaster} from './blaster';
+import IRBlaster from './blaster';
 
 export type ScannerCallback = (IRBlaster) => void;
 
-export class IRBlasterScanner {
+export interface IRBlasterScanner {
     subscribe(ScannerCallback): void
     get(): IRBlaster[]
 }

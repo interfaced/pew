@@ -1,8 +1,15 @@
+import {Client as MqttClient, connect} from 'mqtt';
+import {IIRBlaster} from './blaster.d';
 import IRBlaster from './blaster.js';
 
 const ReservedTopics = ['ping'];
+type OnBlasterCallback = (IRBlaster) => void
 
-class IRBlasterScanner {
+class IRBlasterScanner implements IRBlasterScanner {
+	_callback: OnBlasterCallback
+	_clients: IIRBlaster[]
+	mqttClient: MqttClient
+
 	constructor(mqttServerIp, callback) {
 		this._callback = callback;
 		this._clients = [];
@@ -14,7 +21,7 @@ class IRBlasterScanner {
 			clientId: 'blaster-server'
 		};
 
-		this.mqttClient = mqtt.connect(`mqtt://${mqttServerIp}`, options);
+		this.mqttClient = connect(`mqtt://${mqttServerIp}`, options);
 
 		this.mqttClient.once('connect', () => {
 			this.mqttClient.subscribe('/irblaster/+');
@@ -33,11 +40,11 @@ class IRBlasterScanner {
 		})
 	}
 
-	subscribe(callback) {
+	subscribe(callback: OnBlasterCallback) {
 		this._callback = callback;
 	}
 
-	get() {
+	get(): IIRBlaster[] {
 		return this._clients;
 	}
 }
