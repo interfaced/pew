@@ -1,0 +1,20 @@
+<div class="shadow hover:shadow-lg rounded-2xl w-64 p-4 bg-white relative overflow-hidden border-slate-200 border cursor-pointer transition-shadow ease-in-out duration-500">
+	<svg class="absolute z-0 -right-10 -top-8 h-40 w-40 mb-4 hover:fill-amber-800" viewBox="0 0 375 283" fill="none">
+		<rect y="130" x="165" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" class="fill-slate-200"></rect>
+		<rect y="110" x="10" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" class="fill-slate-100"></rect>
+	</svg>
+	<div class="relative z-1 w-4/6">
+		<p class="text-gray-800 text-lg font-medium mb-2 whitespace-nowrap line-clamp-2">
+			{{name}}
+		</p>
+		<ng-container *ngIf="status$ | async as status">
+			<app-status-btn label="Mode" [status]="parseStatus('mode', status.mode)" [icon]="parseIcon('mode', status.mode)" [options]="blasterModes" (statusChange)="onStatusChange('mode', $event)"></app-status-btn>
+			<app-status-btn label="Power"
+			                [glow]="applyGlowColor('power', status.power)"
+			                [status]="parseStatus('power', status.power)" icon="icon-power" [options]="powerModes" (statusChange)="onStatusChange('power', $event)" [isEnum]="true"></app-status-btn>
+			<app-status-btn label="Network"
+			                [glow]="applyGlowColor('network', status.network)"
+			                [status]="parseStatus('network', status.network)" icon="icon-lan" [options]="networkModes" (statusChange)="onStatusChange('network', $event)"></app-status-btn>
+		</ng-container>
+	</div>
+</div>

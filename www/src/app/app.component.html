@@ -1,0 +1,5 @@
+<ng-container [ngSwitch]="state" *ngIf="initStateService.state$ | async as state">
+	<router-outlet *ngSwitchCase="states.READY"></router-outlet>
+	<app-mqtt-form *ngSwitchCase="states.NO_SERVER"></app-mqtt-form>
+	<app-splash *ngSwitchDefault></app-splash>
+</ng-container>

@@ -1,0 +1,8 @@
+<div class="flex flex-row flex-wrap justify-center p-3">
+	<ng-container *ngIf="list$ | async as list">
+		<app-blaster class="m-2"
+		             [blaster]="blaster"
+		             [routerLink]="blaster.id"
+		             *ngFor="let blaster of list; index as i"></app-blaster>
+	</ng-container>
+</div>

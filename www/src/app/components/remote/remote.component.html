@@ -1,0 +1,27 @@
+<div class="bg-slate-700 shadow-md hover:shadow-lg rounded-3xl border-slate-100 border p-4">
+	<div class="grid justify-items-stretch auto-cols-fr auto-rows-fr items-stretch w-fit gap-1.5 cursor-pointer" style=""
+	     [ngStyle]="{'grid-template-columns': 'repeat(' + cols + ', minmax(35px, 1fr))'}"
+	>
+		<ng-container *ngFor="let row of this.remote?.layout; index as idx">
+			<ng-container *ngFor="let btn of row; index as jdx">
+				<div [ngStyle]="{
+				        'grid-area': gridArea(idx, jdx, btn)
+				     }"
+				     *ngIf="btn; else emptySpace"
+				>
+					<div class="hover:-translate-y-0.5 text-sm border border-slate-700 shadow hover:shadow-md hove:shadow-white bg-slate-800 text-slate-100 rounded-xl text-center align-middle font-cond p-1"
+					     [ngStyle]="{
+				            'color': btn.textColor,
+				            'background-color': btn.bgColor
+				        }"
+					     (click)="onBtnPress(btn)"
+					>
+						<span *ngIf="btn.label">{{btn.label}}</span>
+						<span class="align-middle" *ngIf="btn.icon" [ngClass]="'icon-'+btn.icon"></span>
+					</div>
+				</div>
+				<ng-template #emptySpace><div>&nbsp;</div></ng-template>
+			</ng-container>
+		</ng-container>
+	</div>
+</div>

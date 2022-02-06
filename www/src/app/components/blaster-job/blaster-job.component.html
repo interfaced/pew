@@ -1,0 +1,43 @@
+<div class="rounded-2xl w-full overflow-hidden bg-slate-50"
+     [ngClass]="{'shadow-md': !isExpanded, 'shadow-lg': isExpanded}"
+     cdkDropList
+     cdkDropListOrientation="vertical"
+     (cdkDropListDropped)="drop($event)"
+>
+	<div class="flex items-center p-4 justify-between bg-white">
+		<input type="text" id="mqtt-server"
+		       class="form-input text-slate-900 text-sm border-0 focus:shadow focus:shadow-sky-500 focus:border-b focus:border-slate-600 w-1/2 p-2.5"
+		       placeholder="192.168.10.10"
+		       [formControl]="jobName"
+		>
+		<div class="flex gap-2">
+			<button class="text-sm p-1 w-8 h-8 leading-6 text-slate-600 border shadow hover:shadow-md bg-slate-100 border border-slate-200 rounded-lg bg-gradient-to-br to-slate-200 from-slate-100">
+				<span class="icon-download"></span>
+			</button>
+			<button class="text-sm p-1 w-8 h-8 leading-6 text-slate-600 border shadow hover:shadow-md border border-slate-200 rounded-lg bg-gradient-to-br to-slate-200 from-slate-100">
+				<span class="icon-grid"></span>
+			</button>
+			<button class="text-sm p-1 w-8 h-8 leading-6 text-slate-600 border shadow hover:shadow-md bg-slate-100 border border-slate-200 rounded-lg hover:shadow-sky-500/50 bg-gradient-to-br to-slate-200 from-slate-100">
+				<span class="icon-play"></span>
+			</button>
+		</div>
+	</div>
+	<div class="h-fit overflow-y-scroll" *ngIf="isExpanded">
+		<app-blaster-event
+				*ngFor="let event of job.items; index as idx"
+				[order]="idx"
+				(onClone)="clone(idx)"
+				(onDelete)="delete(idx)"
+				(onEdit)="edit(idx)"
+				[event]="event"
+				cdkDrag
+		></app-blaster-event>
+	</div>
+	<div class="py-4 px-4 text-gray-600 bg-white cursor-pointer font-cond text-center"
+		(click)="isExpanded = !isExpanded">
+		<span class="align-middle text-lg icon-arrow-down transition-transform"
+		      [ngClass]="{'icon-arrow-down': !isExpanded, 'icon-arrow-up': isExpanded}"
+		></span>
+		{{isExpanded ? 'Collapse' : 'Expand'}}
+	</div>
+</div>

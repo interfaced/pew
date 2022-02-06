@@ -1,0 +1,147 @@
+{
+  "id": "sony",
+  "label": "Sony",
+  "protocol": 4,
+  "keyMap": {
+    "KEY_POWER": {
+      "code": "0xA90",
+      "nbits": 12
+    },
+    "KEY_1": {
+      "code": "0x10",
+      "nbits": 12
+    },
+    "KEY_2": {
+      "code": "0x810",
+      "nbits": 12
+    },
+    "KEY_3": {
+      "code": "0x410",
+      "nbits": 12
+    },
+    "KEY_4": {
+      "code": "0xC10",
+      "nbits": 12
+    },
+    "KEY_5": {
+      "code": "0xA10",
+      "nbits": 12
+    },
+    "KEY_6": {
+      "code": "0x610",
+      "nbits": 12
+    },
+    "KEY_7": {
+      "code": "0xE1",
+      "nbits": 12
+    },
+    "KEY_8": {
+      "code": "0x110",
+      "nbits": 12
+    },
+    "KEY_9": {
+      "code": "0x110",
+      "nbits": 12
+    },
+    "KEY_0": {
+      "code": "0x910",
+      "nbits": 12
+    },
+    "KEY_MEDIA": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_MENU": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_UP": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_LEFT": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_ENTER": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_RIGHT": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_DOWN": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_BACK": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_HOME": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_VOLUMEUP": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_MUTE": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_CHANNELUP": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_VOLUMEDOWN": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_CHANNELDOWN": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_REWIND": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_PLAY": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_FORWARD": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_STOP": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_PAUSE": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_PLAYPAUSE": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_GREEN": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_YELLOW": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_BLUE": {
+      "code": "",
+      "nbits": 12
+    },
+    "KEY_RED": {
+      "code": "0x52E9",
+      "nbits": 12
+    }
+  }
+}
