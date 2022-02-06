@@ -12,6 +12,7 @@
 #define TOPIC_SET "set"
 #define TOPIC_CONTROL "control"
 #define TOPIC_DISCONNECT "disconnect"
+
 #define INPUT_EVENTS_MAX_COUNT 256
 
 const uint32_t MQTT_BUFFER_CAPACITY = JSON_ARRAY_SIZE(INPUT_EVENTS_MAX_COUNT)
@@ -21,6 +22,7 @@ typedef enum {
 	CMD_TX_PAUSE,
 	CMD_TX_RESUME,
 	CMD_TX_STOP,
+	CMD_RECONFIGURE,
 	CMD_MAX
 } CommandType;
 
@@ -56,3 +58,4 @@ typedef struct {
 
 void PEWMQTT_init();
 void PEWMQTT_publish_event(const Event* event);
+void PEWMQTT_notify_state_change();

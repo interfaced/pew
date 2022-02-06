@@ -46,6 +46,8 @@ void setup()
 	if (CFG_CHECK_SIG(cfg))
 	{
 		cfg = CFG_ZERO;
+		uint32_t dev_id = os_random();
+		sprintf(cfg.dev_id, "%" PRIX32, dev_id);
 		config_write(cfg);
 	}
 
@@ -128,16 +130,16 @@ bool wifi_connect()
 bool mqtt_connect()
 {
 	uint32_t start = millis();
-	Serial.printf("[MQTT] Connecting to [%s:%d] as %s\n", cfg.mqtt_host, cfg.mqtt_port, cfg.id);
+	Serial.printf("[MQTT] Connecting to [%s:%d] as %s::%s\n", cfg.mqtt_host, cfg.mqtt_port, cfg.id, cfg.dev_id);
 	char topic[256];
 	memset(topic, 0, 256);
-	sprintf(topic, "/" TOPIC_ROOT "/%s/" TOPIC_DISCONNECT, cfg.id);
+	sprintf(topic, "/" TOPIC_ROOT "/%s::%s/" TOPIC_DISCONNECT, cfg.id, cfg.dev_id);
 
 	while (!mqttClient.connected())
 	{
 		if (millis() - start < MQTT_CONNECT_TIMEOUT_MS)
 		{
-			if (!mqttClient.connect(cfg.id, NULL, NULL, topic, 1, false, "1"))
+			if (!mqttClient.connect(cfg.dev_id, cfg.id, NULL, topic, 1, false, "1"))
 			{
 				delay(2000);
 				Serial.printf("[MQTT] State = %d\n", mqttClient.state());

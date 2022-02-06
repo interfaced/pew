@@ -6,6 +6,7 @@
 #include "./pewmqtt.h"
 #include "./config.h"
 #include "./pew.h"
+#include "./utils.h"
 
 extern PubSubClient mqttClient;
 extern Config cfg;
@@ -24,27 +25,38 @@ void PEWMQTT_init()
 	mqttClient.subscribe("/" TOPIC_ROOT "/" TOPIC_PING, 1);
 
 	memset(topic, 0, 256);
-	sprintf(topic, "/" TOPIC_ROOT "/%s/" TOPIC_GET, cfg.id);
+	sprintf(topic, "/" TOPIC_ROOT "/%s::%s/" TOPIC_GET, cfg.id, cfg.dev_id);
 	mqttClient.subscribe(topic, 1);
 
 	memset(topic, 0, 256);
-	sprintf(topic, "/" TOPIC_ROOT "/%s/" TOPIC_SET, cfg.id);
+	sprintf(topic, "/" TOPIC_ROOT "/%s::%s/" TOPIC_SET, cfg.id, cfg.dev_id);
 	mqttClient.subscribe(topic, 1);
 
 	memset(topic, 0, 256);
-	sprintf(topic, "/" TOPIC_ROOT "/%s/" TOPIC_INPUT, cfg.id);
+	sprintf(topic, "/" TOPIC_ROOT "/%s::%s/" TOPIC_INPUT, cfg.id, cfg.dev_id);
 	mqttClient.subscribe(topic, 1);
 
 	memset(topic, 0, 256);
-	sprintf(topic, "/" TOPIC_ROOT "/%s/" TOPIC_CONTROL, cfg.id);
+	sprintf(topic, "/" TOPIC_ROOT "/%s::%s/" TOPIC_CONTROL, cfg.id, cfg.dev_id);
 	mqttClient.subscribe(topic, 1);
 
 	memset(topic, 0, 256);
-	sprintf(topic, "/" TOPIC_ROOT "/%s", cfg.id);
+	sprintf(topic, "/" TOPIC_ROOT "/%s::%s", cfg.id, cfg.dev_id);
 
 	char msg[256];
 	memset(msg, 0, 256);
 	publish_device_state(topic, msg);
+}
+
+void PEWMQTT_notify_state_change()
+{
+	char pub_topic[128];
+	char msg[256];
+	memset(pub_topic, 0, 128);
+	memset(msg, 0, 256);
+
+	sprintf(pub_topic, "/" TOPIC_ROOT "/%s::%s", cfg.id, cfg.dev_id);
+	publish_device_state(pub_topic, msg);
 }
 
 static void publish_device_state(char* topic, char* msg)
@@ -63,7 +75,7 @@ static void mqtt_recv(char* topic, uint8_t* payload, unsigned int length)
 
 	if (strcmp(topic_last, TOPIC_PING) == 0 || strcmp(topic_last, TOPIC_GET) == 0)
 	{
-		sprintf(pub_topic, "/" TOPIC_ROOT "/%s", cfg.id);
+		sprintf(pub_topic, "/" TOPIC_ROOT "/%s::%s", cfg.id, cfg.dev_id);
 		publish_device_state(pub_topic, msg);
 		return;
 	}
@@ -97,7 +109,14 @@ static void mqtt_recv(char* topic, uint8_t* payload, unsigned int length)
 			PEW_stop();
 		}
 
-		sprintf(pub_topic, "/" TOPIC_ROOT "/%s", cfg.id);
+		if (cmd_type == CommandType::CMD_RECONFIGURE)
+		{
+			cfg.configured = false;
+			config_write(cfg);
+			delay_fn(500, FUNC_T(system_restart));
+		}
+
+		sprintf(pub_topic, "/" TOPIC_ROOT "/%s::%s", cfg.id, cfg.dev_id);
 		publish_device_state(pub_topic, msg);
 	}
 
@@ -119,7 +138,7 @@ static void mqtt_recv(char* topic, uint8_t* payload, unsigned int length)
 			deviceState.mode = static_cast<Mode>(mode);
 		}
 
-		sprintf(pub_topic, "/" TOPIC_ROOT "/%s", cfg.id);
+		sprintf(pub_topic, "/" TOPIC_ROOT "/%s::%s", cfg.id, cfg.dev_id);
 		publish_device_state(pub_topic, msg);
 		return;
 	}
@@ -204,7 +223,7 @@ void PEWMQTT_publish_event(const Event* event)
 {
 	char topic[256];
 	memset(topic, 0, 256);
-	sprintf(topic, "/" TOPIC_ROOT "/%s/" TOPIC_OUTPUT, cfg.id);
+	sprintf(topic, "/" TOPIC_ROOT "/%s::%s/" TOPIC_OUTPUT, cfg.id, cfg.dev_id);
 
 	char msg[256];
 	memset(msg, 0, 256);

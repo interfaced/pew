@@ -5,12 +5,13 @@
 #define CONFIG_EEPROM_ADDR 0
 
 #define CFG_SIG0 0x13
-#define CFG_SIG1 0x37
+#define CFG_SIG1 0x38
 
 typedef struct {
 	uint8_t sig0;
 	uint8_t sig1;
 	char id[32];
+	char dev_id[32];
 	char ssid[64];
 	char pass[64];
 	char mqtt_host[64];

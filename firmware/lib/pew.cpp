@@ -120,6 +120,7 @@ static void send_events()
 	}
 
 	PEW_stop();
+	PEWMQTT_notify_state_change();
 }
 
 bool PEW_pause()
@@ -167,6 +168,7 @@ void PEW_send_events(Event* events, uint32_t size)
 	}
 
 	deviceState.status = Status::STATUS_BUSY;
+	PEWMQTT_notify_state_change();
 	events_buffer = events;
 	events_buffer_len = size;
 	os_timer_setfn(&send_events_timer, FUNC_T(send_events), (void*)0);
