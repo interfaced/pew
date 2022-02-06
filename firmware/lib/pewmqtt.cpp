@@ -145,7 +145,7 @@ static void mqtt_recv(char* topic, uint8_t* payload, unsigned int length)
 
 	if (strcmp(topic_last, TOPIC_INPUT) == 0)
 	{
-		if (deviceState.status == Status::STATUS_BUSY)
+		if (deviceState.ir != IRStatus::STATUS_IDLE)
 		{
 			return;
 		}
@@ -258,7 +258,7 @@ static void state_as_json_str(char *buffer)
 {
   sprintf(buffer, "{"
       "\"mode\":%d,"
-	  "\"status\":%d,"
+	  "\"ir\":%d,"
 	  "\"capabilities\":%s"
-      "}", deviceState.mode, deviceState.status, capabilities);
+      "}", deviceState.mode, deviceState.ir, capabilities);
 }

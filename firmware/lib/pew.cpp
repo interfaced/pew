@@ -68,14 +68,14 @@ void PEW_loop()
 void PEW_send_single_signal(EventSignal* signal)
 {
 #ifdef PEW_ENABLE_TX
-	if (deviceState.status == Status::STATUS_BUSY)
+	if (deviceState.ir == IRStatus::STATUS_BUSY)
 	{
 		return;
 	}
 
-	deviceState.status = Status::STATUS_BUSY;
+	deviceState.ir = IRStatus::STATUS_BUSY;
 	send_signal(signal);
-	deviceState.status = Status::STATUS_IDLE;
+	deviceState.ir = IRStatus::STATUS_IDLE;
 #endif
 }
 
@@ -95,7 +95,7 @@ static void send_events()
 {
 	os_timer_disarm(&send_events_timer);
 
-	if (deviceState.status != Status::STATUS_BUSY)
+	if (deviceState.ir != IRStatus::STATUS_BUSY)
 	{
 		return;
 	}
@@ -125,49 +125,49 @@ static void send_events()
 
 bool PEW_pause()
 {
-	if (deviceState.status == Status::STATUS_BUSY)
+	if (deviceState.ir == IRStatus::STATUS_BUSY)
 	{
 		os_timer_disarm(&send_events_timer);
-		deviceState.status = Status::STATUS_PAUSED;
+		deviceState.ir = IRStatus::STATUS_PAUSED;
 	}
 
-	return deviceState.status == Status::STATUS_PAUSED;
+	return deviceState.ir == IRStatus::STATUS_PAUSED;
 }
 
 bool PEW_resume()
 {
-	if (deviceState.status == Status::STATUS_PAUSED)
+	if (deviceState.ir == IRStatus::STATUS_PAUSED)
 	{
 		os_timer_arm(&send_events_timer, 100, 1);
-		deviceState.status = Status::STATUS_BUSY;
+		deviceState.ir = IRStatus::STATUS_BUSY;
 	}
 
-	return deviceState.status == Status::STATUS_BUSY;
+	return deviceState.ir == IRStatus::STATUS_BUSY;
 }
 
 bool PEW_stop()
 {
-	if (deviceState.status != Status::STATUS_IDLE)
+	if (deviceState.ir != IRStatus::STATUS_IDLE)
 	{
 		os_timer_disarm(&send_events_timer);
 		current_event_idx = 0;
 		events_buffer = 0;
 		events_buffer_len = 0;
-		deviceState.status = Status::STATUS_IDLE;
+		deviceState.ir = IRStatus::STATUS_IDLE;
 	}
 
-	return deviceState.status == Status::STATUS_IDLE;
+	return deviceState.ir == IRStatus::STATUS_IDLE;
 }
 
 void PEW_send_events(Event* events, uint32_t size)
 {
 #ifdef PEW_ENABLE_TX
-	if (deviceState.status != Status::STATUS_IDLE)
+	if (deviceState.ir != IRStatus::STATUS_IDLE)
 	{
 		return;
 	}
 
-	deviceState.status = Status::STATUS_BUSY;
+	deviceState.ir = IRStatus::STATUS_BUSY;
 	PEWMQTT_notify_state_change();
 	events_buffer = events;
 	events_buffer_len = size;

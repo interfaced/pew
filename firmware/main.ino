@@ -30,7 +30,7 @@ IRsend irsend(PEW_TX_PIN);
 Config cfg = CFG_ZERO;
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient);
-DeviceState deviceState = DeviceState{Mode::MODE_TRANSPARENT,Status::STATUS_IDLE};
+DeviceState deviceState = DeviceState{Mode::MODE_TRANSPARENT,IRStatus::STATUS_IDLE};
 
 bool wifi_connect();
 bool mqtt_connect();

@@ -31,11 +31,11 @@ typedef enum {
 	STATUS_IDLE = 0,
 	STATUS_BUSY,
 	STATUS_PAUSED
-} Status;
+} IRStatus;
 
 typedef struct {
 	Mode mode;
-	Status status;
+	IRStatus ir;
 } DeviceState;
 
 void PEW_loop();
