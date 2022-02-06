@@ -29,7 +29,8 @@ typedef enum {
 
 typedef enum {
 	STATUS_IDLE = 0,
-	STATUS_BUSY
+	STATUS_BUSY,
+	STATUS_PAUSED
 } Status;
 
 typedef struct {
@@ -40,3 +41,6 @@ typedef struct {
 void PEW_loop();
 void PEW_send_single_signal(EventSignal* signal);
 void PEW_send_events(Event* events, uint32_t size);
+bool PEW_stop();
+bool PEW_pause();
+bool PEW_resume();

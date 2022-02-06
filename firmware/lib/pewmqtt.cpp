@@ -36,6 +36,10 @@ void PEWMQTT_init()
 	mqttClient.subscribe(topic, 1);
 
 	memset(topic, 0, 256);
+	sprintf(topic, "/" TOPIC_ROOT "/%s/" TOPIC_CONTROL, cfg.id);
+	mqttClient.subscribe(topic, 1);
+
+	memset(topic, 0, 256);
 	sprintf(topic, "/" TOPIC_ROOT "/%s", cfg.id);
 
 	char msg[256];
@@ -57,9 +61,6 @@ static void mqtt_recv(char* topic, uint8_t* payload, unsigned int length)
 	memset(pub_topic, 0, 256);
 	memset(msg, 0, 256);
 
-	// /ping -
-	// /%FRIENDLY_NAME%/get -
-	// если сюда пишут любое сообщение, то в irblaster/%FRIENDLY_NAME% пишется STATUS
 	if (strcmp(topic_last, TOPIC_PING) == 0 || strcmp(topic_last, TOPIC_GET) == 0)
 	{
 		sprintf(pub_topic, "/" TOPIC_ROOT "/%s", cfg.id);
@@ -67,7 +68,39 @@ static void mqtt_recv(char* topic, uint8_t* payload, unsigned int length)
 		return;
 	}
 
-	// /%FRIENDLY_NAME%/set - пишется STATUS или его часть
+	if (strcmp(topic_last, TOPIC_CONTROL) == 0)
+	{
+		const int capacity = JSON_OBJECT_SIZE(1);
+		StaticJsonDocument<capacity> doc;
+		DeserializationError err = deserializeJson(doc, payload);
+
+		if (err != DeserializationError::Ok)
+		{
+			Serial.printf("[JSON] JSON serialization err: %d\n", err.f_str());
+			return;
+		}
+		
+		CommandType cmd_type = static_cast<CommandType>(doc["type"].as<int>());
+
+		if (cmd_type == CommandType::CMD_TX_PAUSE)
+		{
+			PEW_pause();
+		}
+
+		if (cmd_type == CommandType::CMD_TX_RESUME)
+		{
+			PEW_resume();
+		}
+
+		if (cmd_type == CommandType::CMD_TX_STOP)
+		{
+			PEW_stop();
+		}
+
+		sprintf(pub_topic, "/" TOPIC_ROOT "/%s", cfg.id);
+		publish_device_state(pub_topic, msg);
+	}
+
 	if (strcmp(topic_last, TOPIC_SET) == 0)
 	{
 		const int capacity = JSON_OBJECT_SIZE(1);

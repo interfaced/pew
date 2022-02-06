@@ -89,15 +89,20 @@ static void send_signal(EventSignal* signal)
 static os_timer_t send_events_timer;
 static Event* events_buffer = 0;
 static uint32_t events_buffer_len = 0;
+static int current_event_idx = 0;
 
 static void send_events()
 {
-	static int i = 0;
-
 	os_timer_disarm(&send_events_timer);
-	if (i < events_buffer_len)
+
+	if (deviceState.status != Status::STATUS_BUSY)
 	{
-		Event* eventp = &(events_buffer[i]);
+		return;
+	}
+
+	if (current_event_idx < events_buffer_len)
+	{
+		Event* eventp = &(events_buffer[current_event_idx]);
 		uint32_t sleep_ms = 100;
 		if (eventp->type == EventType::EVENT_SIGNAL)
 		{
@@ -108,22 +113,55 @@ static void send_events()
 			sleep_ms = eventp->data.sleep.ms;
 		}
 		PEWMQTT_publish_event(eventp);
-		i++;
+		current_event_idx++;
 
 		os_timer_arm(&send_events_timer, sleep_ms, 1);
 		return;
 	}
 
-	i = 0;
-	events_buffer = 0;
-	events_buffer_len = 0;
-	deviceState.status = Status::STATUS_IDLE;
+	PEW_stop();
+}
+
+bool PEW_pause()
+{
+	if (deviceState.status == Status::STATUS_BUSY)
+	{
+		os_timer_disarm(&send_events_timer);
+		deviceState.status = Status::STATUS_PAUSED;
+	}
+
+	return deviceState.status == Status::STATUS_PAUSED;
+}
+
+bool PEW_resume()
+{
+	if (deviceState.status == Status::STATUS_PAUSED)
+	{
+		os_timer_arm(&send_events_timer, 100, 1);
+		deviceState.status = Status::STATUS_BUSY;
+	}
+
+	return deviceState.status == Status::STATUS_BUSY;
+}
+
+bool PEW_stop()
+{
+	if (deviceState.status != Status::STATUS_IDLE)
+	{
+		os_timer_disarm(&send_events_timer);
+		current_event_idx = 0;
+		events_buffer = 0;
+		events_buffer_len = 0;
+		deviceState.status = Status::STATUS_IDLE;
+	}
+
+	return deviceState.status == Status::STATUS_IDLE;
 }
 
 void PEW_send_events(Event* events, uint32_t size)
 {
 #ifdef PEW_ENABLE_TX
-	if (deviceState.status == Status::STATUS_BUSY)
+	if (deviceState.status != Status::STATUS_IDLE)
 	{
 		return;
 	}
