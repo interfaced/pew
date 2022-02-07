@@ -1,7 +1,7 @@
 import {IMqttMessage, MqttService} from 'ngx-mqtt';
 import {Protocols, EventType, FriendlyName, LocalTopics, BlasterTopics, BlasterStatus, EventSignal as RawEventSignal, EventSleep as RawEventSleep, CommandType} from "./types";
 import { BehaviorSubject, catchError, Observable, of, shareReplay } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 
 export class EventSleep {
@@ -31,6 +31,29 @@ export class BlasterEvent<T = EventSleep|EventSignal> {
   constructor({type, data}: {type: EventType, data: T}) {
     this.type = type;
     this.data = data;
+  }
+
+  toJSON() {
+    return this.toString();
+  }
+
+  toString() {
+    const result: {
+      type: number;
+      protocol?: number;
+      code?: string;
+      nbits?: number;
+    } = {
+      'type': this.type
+    };
+
+    if (this.data instanceof EventSignal) {
+      result['code'] = this.data.code;
+      result['protocol'] = this.data.protocol;
+      result['nbits'] = this.data.nbits;
+    }
+
+    return result;
   }
 }
 
@@ -119,7 +142,7 @@ class IRBlaster {
   }
 
   send(events: BlasterEventConfig) {
-    this._mqttService.unsafePublish(BlasterTopics.INPUT, JSON.stringify(events), {qos: 1});
+    this._mqttService.unsafePublish(this._topic(BlasterTopics.INPUT), JSON.stringify(events), {qos: 1});
   }
 
   setStatus(status: Partial<BlasterStatus>) {

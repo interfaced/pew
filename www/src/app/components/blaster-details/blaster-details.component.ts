@@ -40,11 +40,22 @@ export class BlasterDetailsComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  add(event: BlasterEvent) {
+  add(event: BlasterEvent, isAutoSleep: boolean = true) {
     const job = this.jobs[this.activeJob.jobIdx];
 
     if (job) {
-      job.items.splice(job.items.length, 0, event);
+      job.items.splice(this.activeJob.eventIdx, 0, event);
+
+      if (isAutoSleep) {
+        job.items.splice(this.activeJob.eventIdx + 1, 0,
+          new BlasterEvent({
+            type: EventType.EVENT_SLEEP,
+            data: new EventSleep({ms: 150})
+          })
+        );
+      }
+
+      this.activeJob.eventIdx = job.items.length;
     }
   }
 
@@ -98,5 +109,9 @@ export class BlasterDetailsComponent implements OnInit {
             currentJob.items.push(event);
           });
     }
+  }
+
+  onRun(job: BlasterJob) {
+    this.blaster.send(job.items);
   }
 }

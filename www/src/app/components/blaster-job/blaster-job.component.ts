@@ -33,6 +33,9 @@ export class BlasterJobComponent implements OnInit {
   @Output()
   onRecordStatus = new EventEmitter<boolean>();
 
+  @Output()
+  onRun = new EventEmitter<void>();
+
   isExpanded = false;
 
   jobName = new FormControl();
@@ -63,7 +66,9 @@ export class BlasterJobComponent implements OnInit {
     this.activeIdxChanged.emit(idx);
   }
 
-  sendCommandPlay() {}
+  sendCommandPlay() {
+    this.onRun.emit();
+  }
 
   sendCommandResume() {
     this.sendIrCommand.emit(CommandType.TX_RESUME);

@@ -14,7 +14,9 @@
 					[activeIdx]="activeJob.eventIdx"
 					(sendIrCommand)="onIrCommand($event)"
 					(activeIdxChanged)="onEditEvent($event, job)"
-					(onRecordStatus)="onRecordStatusChange($event)">
+					(onRecordStatus)="onRecordStatusChange($event)"
+					(onRun)="onRun(job)"
+			>
 			</app-blaster-job>
 		</div>
 
