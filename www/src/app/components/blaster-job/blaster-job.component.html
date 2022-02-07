@@ -1,12 +1,17 @@
-<div class="rounded-2xl w-full overflow-hidden bg-slate-50"
-     [ngClass]="{'shadow': !isExpanded, 'shadow-lg': isExpanded}"
+<div class="rounded-2xl w-full overflow-hidden bg-slate-50 transition-all shadow"
+     [ngClass]="{
+	     'shadow': !isExpanded,
+	     'shadow-lg': isExpanded,
+	     'outline-0 shadow-none': !isActive,
+	     'outline outline-sky-300 shadow-sky-500/20': isActive
+     }"
      cdkDropList
      cdkDropListOrientation="vertical"
      (cdkDropListDropped)="drop($event)"
 >
 	<div class="flex items-center p-4 justify-between bg-white">
 		<input type="text" id="mqtt-server"
-		       class="form-input rounded-lg border-transparent appearance-none border border-slate-300 py-2 px-4 mr-1 bg-white text-slate-700 placeholder-slate-400 hover:shadow text-base focus:outline-none focus:ring-1 focus:ring-slate-600 focus:border-transparent"
+		       class="form-input font-cond rounded-lg border-transparent appearance-none border border-slate-300 py-2 px-4 mr-1 bg-white text-slate-700 placeholder-slate-400 hover:shadow text-base focus:outline-none focus:ring-1 focus:ring-slate-600 focus:border-transparent"
 		       placeholder="192.168.10.10"
 		       [formControl]="jobName"
 		>
@@ -22,7 +27,15 @@
 			</button>
 		</div>
 	</div>
-	<div class="h-fit overflow-y-scroll" *ngIf="isExpanded">
+	<div class="h-fit overflow-y-scroll">
+		<div class="py-4 px-4 text-slate-600 bg-white cursor-pointer font-cond text-center border-y border-slate-200"
+		     (click)="isExpanded = !isExpanded"
+		     *ngIf="isExpanded && job.items.length > 10">
+			<span class="align-middle text-lg icon-arrow-down transition-transform"
+			      [ngClass]="{'icon-arrow-down': !isExpanded, 'icon-arrow-up': isExpanded}"
+			></span>
+			{{isExpanded ? 'Collapse' : 'Expand'}}
+		</div>
 		<app-blaster-event
 				*ngFor="let event of job.items; index as idx"
 				[order]="idx"
@@ -34,11 +47,18 @@
 		></app-blaster-event>
 	</div>
 	<div class="py-4 px-4 text-slate-600 bg-white cursor-pointer font-cond text-center border-y border-slate-200"
-		(click)="isExpanded = !isExpanded">
+		(click)="isExpanded = !isExpanded"
+		 *ngIf="job.items.length">
 		<span class="align-middle text-lg icon-arrow-down transition-transform"
 		      [ngClass]="{'icon-arrow-down': !isExpanded, 'icon-arrow-up': isExpanded}"
 		></span>
 		{{isExpanded ? 'Collapse' : 'Expand'}}
+	</div>
+	<div class="py-2 px-2 text-slate-600 bg-white cursor-pointer font-cond text-center border-y border-slate-200"
+		 *ngIf="!job.items.length">
+		<div class="flex h-20 min-h-fit justify-center items-center font-cond border-2 border-dashed rounded border-slate-200">
+			Click this job and start pressing Remote <span class="icon-arrow-right"></span>
+		</div>
 	</div>
 	<div class="py-4 px-4 text-slate-600 flex items-center justify-between bg-white cursor-pointer">
 		<div class="actions flex items-center font-cond justify-between gap-2">

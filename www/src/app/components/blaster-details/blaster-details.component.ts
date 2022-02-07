@@ -12,18 +12,16 @@ import { RemotesService } from '@services/remotes.service';
   styleUrls: ['./blaster-details.component.css']
 })
 export class BlasterDetailsComponent implements OnInit {
-  jobs: BlasterJob[] = [
-    {
-      name: 'Запуск DEV',
-      items: generateEvents(125)
-    }
-  ];
+  jobs: BlasterJob[] = [];
 
   blaster: IRBlaster = this.route.snapshot.data['blaster'];
 
   activeRemote = new FormControl();
 
-  activeIdx: number = -1;
+  activeJob = {
+    eventIdx: -1,
+    jobIdx: -1
+  };
 
   constructor(
     public remotes: RemotesService,
@@ -38,18 +36,33 @@ export class BlasterDetailsComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  add(event: BlasterEvent, job: BlasterJob) {
-    job.items.splice(job.items.length, 0, event);
+  add(event: BlasterEvent) {
+    const job = this.jobs[this.activeJob.jobIdx];
+
+    if (job) {
+      job.items.splice(job.items.length, 0, event);
+    }
   }
 
   addJob() {
     this.jobs.push({
       name: 'New Scenario',
-      items: generateEvents(25)
+      items: []
     });
   }
 
   onEditEvent(idx: number, list: BlasterJob) {
     // console.log(idx, list);
+  }
+
+  onJobActivate(idx: number) {
+    this.activeJob = {
+      eventIdx: this.jobs[idx].items.length,
+      jobIdx: idx,
+    }
+  }
+
+  get activeJobName(): string {
+    return `${this.jobs[this.activeJob.jobIdx]?.name || '_________'} ${this.activeJob.eventIdx !== -1 ? `L:${this.activeJob.eventIdx}` : ''}`
   }
 }

@@ -15,7 +15,10 @@ export class BlasterJobComponent implements OnInit {
   job!: BlasterJob;
 
   @Input()
-  activeIdx!: number;
+  activeIdx: number = -1;
+
+  @Input()
+  isActive: boolean = false;
 
   @Output()
   activeIdxChanged = new EventEmitter<number>();
@@ -29,6 +32,7 @@ export class BlasterJobComponent implements OnInit {
 
   ngOnInit(): void {
     this.jobName.setValue(this.job.name);
+    this.isExpanded = !this.job?.items?.length
   }
 
   drop(event: CdkDragDrop<number, any>) {

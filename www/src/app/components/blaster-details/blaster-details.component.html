@@ -6,9 +6,8 @@
 		<div class="flex h-1/5 min-h-fit justify-center items-center font-cond border-2 border-dashed rounded-xl border-slate-400 mb-4" *ngIf="!jobs.length">
 			Create new Scenario or Import JSON to here
 		</div>
-		<div class="mb-4" *ngFor="let job of jobs"
-		>
-			<app-blaster-job [job]="job" [activeIdx]="activeIdx" (activeIdxChanged)="onEditEvent($event, job)"></app-blaster-job>
+		<div class="mb-4" *ngFor="let job of jobs; index as idx">
+			<app-blaster-job [job]="job" [isActive]="idx === activeJob.jobIdx" [activeIdx]="activeJob.eventIdx" (activeIdxChanged)="onEditEvent($event, job)" (click)="onJobActivate(idx)"></app-blaster-job>
 		</div>
 
 		<div class="shadow hover:shadow-lg transition-shadow rounded-2xl w-full overflow-hidden bg-slate-50 mt-4">
@@ -25,14 +24,17 @@
 				<option *ngFor="let remote of remotes.list; first as isFirst" [value]="remote.id">{{remote.label}}</option>
 			</select>
 		</div>
-		<div ngxSticky
+		<div class="flex flex-col gap-y-2"
+			 ngxSticky
 		     classWhenSticky="pt-4"
 		     [triggerOn]="'trigger-on'"
 		     [scrollContainer]="stickToMe"
 		>
-			<div id="trigger-on"></div>
+			<div class="w-40 rounded-2xl bg-white p-4 drop-shadow font-cond" id="trigger-on">
+				Input to: <div>{{activeJobName}}</div>
+			</div>
 			<ng-container *ngIf="remotes.active$ | async as remote">
-				<app-remote [remote]="remote" (onPress)="add($event, jobs[0])"></app-remote>
+				<app-remote [remote]="remote" (onPress)="add($event)"></app-remote>
 			</ng-container>
 		</div>
 	</div>
