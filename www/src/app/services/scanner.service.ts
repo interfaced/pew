@@ -61,7 +61,6 @@ export class ScannerService {
           try {
             const blaster = new IRBlaster(this._mqttService, deviceName, JSON.parse(message.payload + ''));
             this._clients.push(blaster);
-            blaster.output$.subscribe(console.log);
             return true;
           } catch (e) {
             return false;
@@ -89,10 +88,6 @@ export class ScannerService {
       .pipe(takeUntil(this._renew$));
 
     this._mqttService.unsafePublish('/irblaster/ping', '', { qos: 1, retain: true });
-  }
-
-  test() {
-    this.clients$.subscribe((a) => console.log(a));
   }
 
   get clients$() {

@@ -5,7 +5,7 @@ import { Protocols } from './pew/types';
 // @ts-ignore
 export const ProtocolName: Record<Protocols, number>  = {
   [Protocols.NEC as number]: 'NEC',
-  [Protocols.SAMSUNG as number]: 'Tizen',
+  [Protocols.SAMSUNG as number]: 'Samsung',
   [Protocols.SONY as number]: 'Sony',
   [Protocols.UNKNOWN as number]: 'Ʉ₦₭₦Ø₩₦'
 }

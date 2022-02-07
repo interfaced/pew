@@ -23,9 +23,14 @@ export class BlasterJobComponent implements OnInit {
   @Output()
   activeIdxChanged = new EventEmitter<number>();
 
+  @Output()
+  onRecordStatus = new EventEmitter<boolean>();
+
   isExpanded = false;
 
   jobName = new FormControl();
+
+  isRecording: boolean = false;
 
   constructor() {
   }
@@ -56,5 +61,11 @@ export class BlasterJobComponent implements OnInit {
       .filter((event) => event.data instanceof EventSleep)
       .map((event) => (event.data as EventSleep).ms)
       .reduce<number>((acc, event) => acc + event, 0);
+  }
+
+  recordToggle() {
+    this.isRecording = !this.isRecording;
+
+    this.onRecordStatus.emit(this.isRecording);
   }
 }

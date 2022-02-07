@@ -1,9 +1,24 @@
 export type Milliseconds = number;
 
-export function duration(ms: Milliseconds) {
-  const self = ms/1000;
-  const min = (self) << 0;
-  const sec = (self*60) % 60;
+function pad2(num:number) {
+  return `${num < 10 ? '0' : ''}${num}`;
+}
 
-  return min + ':' + (sec === 0 ? '00': sec)
+export function duration(time: Milliseconds):string {
+  const seconds = time / 1000;
+  const minutes = Math.floor(seconds / 60);
+
+  if (minutes < 1) {
+    return `00:${pad2(Math.floor(seconds))}`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+  const remainSeconds = Math.floor(seconds % 60);
+  const remainMinutes = minutes % 60;
+
+  if (hours < 1) {
+    return `${remainMinutes}:${pad2(remainSeconds)}`;
+  }
+
+  return `${hours.toString(10)}:${pad2(remainMinutes)}:${pad2(remainSeconds)}`;
 }

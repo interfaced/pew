@@ -1,7 +1,7 @@
 import {IMqttMessage, MqttService} from 'ngx-mqtt';
-import {Protocols, EventType, FriendlyName, LocalTopics, BlasterTopics, BlasterStatus} from "./types";
-import {BehaviorSubject, Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {Protocols, EventType, FriendlyName, LocalTopics, BlasterTopics, BlasterStatus, EventSignal as RawEventSignal, EventSleep as RawEventSleep} from "./types";
+import { BehaviorSubject, catchError, Observable, of, shareReplay } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
 
 
 export class EventSleep {
@@ -88,7 +88,34 @@ class IRBlaster {
       .pipe(map(({payload}) => parsePayload<BlasterStatus>(payload))).subscribe(this.status$);
 
     this.output$ = this._mqttService.observe(this._topic(BlasterTopics.OUTPUT))
-      .pipe(map(({payload}) => parsePayload<BlasterEvent>(payload)));
+      .pipe(
+        map(({payload}) => parsePayload<RawEventSignal|RawEventSleep>(payload)),
+        map((rawEvent: RawEventSignal|RawEventSleep) => {
+          switch (rawEvent.type) {
+            case EventType.EVENT_SIGNAL:
+              return new BlasterEvent({
+                type: EventType.EVENT_SIGNAL,
+                data: new EventSignal({
+                  protocol: rawEvent.protocol,
+                  code: rawEvent.code,
+                  nbits: rawEvent.nbits
+                })
+              });
+            case EventType.EVENT_SLEEP:
+              return new BlasterEvent({
+                type: EventType.EVENT_SLEEP,
+                data: new EventSleep({
+                  ms: rawEvent.ms,
+                })
+              });
+            default:
+              return null;
+          }
+        }),
+        catchError(() => of(null)),
+        filter(Boolean),
+        shareReplay(1)
+      );
   }
 
   send(events: BlasterEventConfig) {

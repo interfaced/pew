@@ -74,7 +74,6 @@ export function generateEvents(count: number = getRandomInt(0, 24)): BlasterEven
     let event;
     if (!isOdd) {
       const selectedKey = Keys[getRandomInt(0, Keys.length - 1)][1];
-      console.log(selectedKey)
       event = new BlasterEvent({
         type: EventType.EVENT_SIGNAL,
         data: new EventSignal({

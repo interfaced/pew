@@ -6,8 +6,10 @@
 		<div class="flex h-1/5 min-h-fit justify-center items-center font-cond border-2 border-dashed rounded-xl border-slate-400 mb-4" *ngIf="!jobs.length">
 			Create new Scenario or Import JSON to here
 		</div>
-		<div class="mb-4" *ngFor="let job of jobs; index as idx">
-			<app-blaster-job [job]="job" [isActive]="idx === activeJob.jobIdx" [activeIdx]="activeJob.eventIdx" (activeIdxChanged)="onEditEvent($event, job)" (click)="onJobActivate(idx)"></app-blaster-job>
+		<div class="mb-4" *ngFor="let job of jobs; index as idx" (click)="onJobActivate(idx)">
+			<app-blaster-job [job]="job" [isActive]="idx === activeJob.jobIdx" [activeIdx]="activeJob.eventIdx"
+			                 (activeIdxChanged)="onEditEvent($event, job)" (onRecordStatus)="onRecordStatusChange($event)">
+			</app-blaster-job>
 		</div>
 
 		<div class="shadow hover:shadow-lg transition-shadow rounded-2xl w-full overflow-hidden bg-slate-50 mt-4">

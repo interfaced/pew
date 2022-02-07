@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { generateEvents } from '@mocks/blaster';
-import { BlasterJob } from '../../../types/job';
-import IRBlaster, { BlasterEvent } from 'src/types/pew/blaster';
 import { RemotesService } from '@services/remotes.service';
+import { Subscription } from 'rxjs';
+import IRBlaster, { BlasterEvent, EventSleep } from 'src/types/pew/blaster';
+import { BlasterJob } from '../../../types/job';
+import { EventType } from '../../../types/pew/types';
 
 @Component({
   selector: 'app-blaster-details',
@@ -22,6 +23,9 @@ export class BlasterDetailsComponent implements OnInit {
     eventIdx: -1,
     jobIdx: -1
   };
+
+  private subscribeToOutput: Subscription|null = null;
+  private distance: number = 0;
 
   constructor(
     public remotes: RemotesService,
@@ -64,5 +68,27 @@ export class BlasterDetailsComponent implements OnInit {
 
   get activeJobName(): string {
     return `${this.jobs[this.activeJob.jobIdx]?.name || '_________'} ${this.activeJob.eventIdx !== -1 ? `L:${this.activeJob.eventIdx}` : ''}`
+  }
+
+  onRecordStatusChange(status: boolean) {
+    this.subscribeToOutput?.unsubscribe();
+
+    this.distance = Date.now();
+    if (status) {
+      this.subscribeToOutput = this.blaster.output$
+        .subscribe((event) => {
+          const currentJob = this.jobs[this.activeJob.jobIdx];
+
+          const newDistance = Date.now();
+          currentJob.items.push(new BlasterEvent({
+            type: EventType.EVENT_SLEEP,
+            data: new EventSleep({ms: newDistance - this.distance})
+          }));
+
+          this.distance = newDistance;
+
+          currentJob.items.push(event);
+        });
+    }
   }
 }
