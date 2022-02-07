@@ -8,6 +8,10 @@ export function duration(time: Milliseconds):string {
   const seconds = time / 1000;
   const minutes = Math.floor(seconds / 60);
 
+  if (seconds < 1) {
+    return `00:${pad2(Math.floor(seconds))}.${time-Math.floor(seconds)}`;
+  }
+
   if (minutes < 1) {
     return `00:${pad2(Math.floor(seconds))}`;
   }
