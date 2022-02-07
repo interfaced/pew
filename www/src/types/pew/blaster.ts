@@ -14,11 +14,13 @@ export class EventSleep {
 
 export class EventSignal {
   public protocol: Protocols;
-  public code: number;
+  public code: string;
+  public nbits: number;
 
-  constructor({protocol, code}: {protocol: Protocols, code: number}) {
+  constructor({protocol, code, nbits}: {protocol: Protocols, code: string, nbits: number}) {
     this.protocol = protocol;
     this.code = code;
+    this.nbits = nbits;
   }
 }
 

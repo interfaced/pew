@@ -32,6 +32,7 @@
       "@pipes/*": ["src/app/pipes/*"],
       "@providers/*": ["src/app/providers/*"],
       "@services/*": ["src/app/services/*"],
+      "@mocks/*": ["src/mocks/*"],
       "@resolvers/*": ["src/app/resolvers/*"],
       "@guards/*": ["src/app/guards/*"]
     }

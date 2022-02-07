@@ -16,6 +16,7 @@ import CanActivateBlasterDetails  from '@app/guards/blaster-details.can-activate
 
 import { BlasterResolver } from '@resolvers/blaster.resolver';
 import { BlastersResolver } from '@resolvers/blasters.resolver';
+import { StickyDirectiveModule } from 'ngx-sticky-directive';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,6 +40,8 @@ import { NotFoundComponent } from '@components/not-found/not-found.component';
 import { BadGatewayComponent } from '@components/bad-gateway/bad-gateway.component';
 import { MqttFormComponent } from '@components/mqtt-form/mqtt-form.component';
 import { BlasterJobComponent } from '@components/blaster-job/blaster-job.component';
+import { KeyCodePipe } from '@pipes/key-code.pipe';
+import { DurationPipe } from './pipes/duration.pipe';
 
 
 export function initFactory(blasterScanner: BlastersService) {
@@ -68,7 +71,9 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     NotFoundComponent,
     BadGatewayComponent,
     MqttFormComponent,
-    BlasterJobComponent
+    BlasterJobComponent,
+    KeyCodePipe,
+    DurationPipe
   ],
   imports: [
     BrowserModule,
@@ -77,6 +82,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     OverlayModule,
     DragDropModule,
     ReactiveFormsModule,
+    StickyDirectiveModule,
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS)
   ],
   providers: [

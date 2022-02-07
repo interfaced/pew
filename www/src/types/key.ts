@@ -77,5 +77,6 @@ export enum Key {
   KEY_TV = 'KEY_TV',
   KEY_STOP = 'KEY_STOP',
   KEY_LANGUAGE = 'KEY_LANGUAGE',
-  KEY_PVR = 'KEY_PVR'
+  KEY_PVR = 'KEY_PVR',
+  UNKNOWN = 'UNKNOWN'
 }

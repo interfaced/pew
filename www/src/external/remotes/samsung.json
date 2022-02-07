@@ -1,0 +1,24 @@
+{
+  "id": "samsung-tizen",
+  "label": "Samsung",
+  "layout": [
+    [{"label": "Samsung", "key": "", "spanX": 3}],
+    [{"icon": "power", "key": "KEY_POWER", "textColor": "#f87171"}, null, {"icon": "input", "key": "KEY_MEDIA"}],
+    [{"label": "1", "key": "KEY_1"}, {"label": "2", "key": "KEY_2"}, {"label": "3", "key": "KEY_3"}],
+    [{"label": "4", "key": "KEY_4"},{"label": "5", "key": "KEY_5"},{"label": "6", "key": "KEY_6"}],
+    [{"label": "7", "key": "KEY_7"},{"label": "8", "key": "KEY_8"},{"label": "9", "key": "KEY_9"}],
+    [null, {"label": "0", "key": "KEY_0"}, null],
+    [{"icon": "settings", "key": "KEY_MENU"}, {"label": "HOME", "key": "KEY_HOME"}, {"label": "GUIDE", "key": "KEY_EPG"}],
+    [null, {"icon": "arrow-up", "key": "KEY_UP"}],
+    [{"icon": "arrow-left", "key": "KEY_LEFT"}, {"label": "OK", "key": "KEY_ENTER"}, {"icon": "arrow-right", "key": "KEY_RIGHT"}],
+    [null, {"icon": "arrow-down", "key": "KEY_DOWN"}],
+    [{"label": "BACK", "key": "KEY_BACK"}, null, {"label": "EXIT", "key": "KEY_EXIT"}],
+    [{"icon": "volume-plus", "key": "KEY_VOLUMEUP"}, {"icon": "volume-mute", "key": "KEY_MUTE"}, {"label": "CH+", "key": "KEY_CHANNELUP"}],
+    [{"icon": "volume-minus", "key": "KEY_VOLUMEDOWN"}, null, {"label": "CH-", "key": "KEY_CHANNELDOWN"}],
+    [null],
+    [{"icon": "rewind", "key": "KEY_REWIND"}, {"icon": "play", "key": "KEY_PLAY"}, {"icon": "forward", "key": "KEY_FORWARD"}],
+    [{"icon": "stop", "key": "KEY_STOP"}, {"icon": "pause", "key": "KEY_PAUSE"}, {"icon": "play-pause", "key": "KEY_PLAYPAUSE"}],
+    [{"icon": "square", "key": "KEY_RED", "textColor": "#ef4444"}, {"icon": "square", "key": "KEY_GREEN", "textColor": "#22c55e"}, {"icon": "square", "key": "KEY_YELLOW", "textColor": "#fde047"}],
+    [null, {"icon": "square", "key": "KEY_BLUE", "textColor": "#0ea5e9"}, null]
+  ]
+}

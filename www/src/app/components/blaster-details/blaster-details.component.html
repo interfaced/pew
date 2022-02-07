@@ -2,17 +2,38 @@
 	<div>
 		<app-blaster [blaster]="blaster"></app-blaster>
 	</div>
-	<div class="flex-1 gap-10">
-		<app-blaster-job [job]="job" [activeIdx]="activeIdx" (activeIdxChanged)="onEditEvent($event, job)"></app-blaster-job>
+	<div class="flex-1">
+		<div class="flex h-1/5 min-h-fit justify-center items-center font-cond border-2 border-dashed rounded-xl border-slate-400 mb-4" *ngIf="!jobs.length">
+			Create new Scenario or Import JSON to here
+		</div>
+		<div class="mb-4" *ngFor="let job of jobs"
+		>
+			<app-blaster-job [job]="job" [activeIdx]="activeIdx" (activeIdxChanged)="onEditEvent($event, job)"></app-blaster-job>
+		</div>
 
-		<div class="shadow-md rounded-2xl w-full overflow-hidden bg-slate-50 mt-4">
+		<div class="shadow hover:shadow-lg transition-shadow rounded-2xl w-full overflow-hidden bg-slate-50 mt-4">
 			<div class="py-4 px-4 text-gray-600 bg-white cursor-pointer font-cond text-center"
 			     (click)="addJob()">
 				<span class="align-middle text-lg icon-arrow-down transition-transform icon-add"></span>
 			</div>
 		</div>
 	</div>
-	<div class="sticky top-0 z-50">
-		<app-remote [remote]="remotes.remotes['sony']" (onPress)="add($event)"></app-remote>
+	<div class="flex flex-col gap-y-3" #stickToMe>
+		<div>
+			<label for="remotes" class="block mb-2 text-sm font-medium font-cond text-gray-900">Remote layout</label>
+			<select id="remotes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-slate-500 focus:border-slate-500 block w-full p-2.5 shadow hover:shadow-lg transition-shadow cursor-pointer" [formControl]="activeRemote">
+				<option *ngFor="let remote of remotes.list; first as isFirst" [value]="remote.id">{{remote.label}}</option>
+			</select>
+		</div>
+		<div ngxSticky
+		     classWhenSticky="pt-4"
+		     [triggerOn]="'trigger-on'"
+		     [scrollContainer]="stickToMe"
+		>
+			<div id="trigger-on"></div>
+			<ng-container *ngIf="remotes.active$ | async as remote">
+				<app-remote [remote]="remote" (onPress)="add($event, jobs[0])"></app-remote>
+			</ng-container>
+		</div>
 	</div>
 </div>

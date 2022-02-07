@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AppState, InitStateService } from '@services/init-state.service';
 import { ScannerService } from '@services/scanner.service';
-import { BehaviorSubject, noop, Observable, of, Subject } from 'rxjs';
-import IRBlaster from 'src/types/pew/blaster';
+import { BehaviorSubject } from 'rxjs';
+import { generateBlasters } from '@mocks/blaster';
 import { environment } from '@environments/environment';
+
+import IRBlaster from 'src/types/pew/blaster';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,7 @@ export class BlastersService {
   constructor(
     private stateService: InitStateService,
     private scannerService: ScannerService
-  ) { }
+  ) {}
 
   setMqttUrl(url: string) {
     this.mqttServerUrl = url;
@@ -40,6 +42,13 @@ export class BlastersService {
   }
 
   load() {
+    if (environment.fakeMqtt) {
+      this.stateService.state.next(AppState.READY);
+      this.blasters.next(generateBlasters(5) as unknown as IRBlaster[]);
+
+      return Promise.resolve();
+    }
+
     if (!environment.mqttServer) {
       this.stateService.state.next(AppState.NO_SERVER);
 

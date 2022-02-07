@@ -21,12 +21,16 @@
 	<p class="leading-6 flex items-center gap-3 flex-grow" *ngIf="isSignal(event)">
 		<span class="icon-grid"></span>
 		<span class="bg-gray-500 font-bold text-white text-center py-1 px-2 text-xs rounded">{{getProtocol(event)}}</span>
-		<span class="font-mono" alt="sgrh">key: {{event.data.code}}</span>
+		<span class="font-mono">Key: {{event.data.code | keyCode:(remotes.active$ | async)}}</span>
 	</p>
 	<p class="text leading-6 flex items-center gap-3 flex-grow" *ngIf="isSleep(event)">
 		<span class="icon-time-quarterpast"></span>
-		<span>{{event.data.ms | date}}</span>
-	</p>
+		<span class="font-cond">Timeout (ms):
+			<input class="form-input rounded-lg border-transparent appearance-none border border-gray-300 py-2 px-4 mr-1 bg-white text-gray-700 placeholder-gray-400 hover:shadow text-base focus:outline-none focus:ring-1 focus:ring-slate-600 focus:border-transparent"
+			       type="number" step="50" placeholder="100"
+			       [formControl]="eventValue"/>
+		</span>
+		</p>
 	<div class="flex items-center gap-2">
 		<div class="actions hidden flex items-center justify-between gap-2">
 			<button class="text-sm p-1 w-8 h-8 leading-6 text-slate-600 border shadow hover:shadow-md bg-slate-100 border border-slate-200 rounded-lg hover:shadow-green-500/50"

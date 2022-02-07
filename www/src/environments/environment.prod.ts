@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  mqttServer: '192.168.88.223'
+  mqttServer: 'ws://192.168.88.223:9001',
+  fakeMqtt: false
 };

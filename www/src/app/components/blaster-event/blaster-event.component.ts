@@ -1,4 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { RemotesService } from '@services/remotes.service';
+import { Observable } from 'rxjs';
 import { BlasterEvent, EventSignal, EventSleep } from 'src/types/pew/blaster';
 import { ProtocolName } from 'src/types/remote';
 import { Protocols } from 'src/external/protocols';
@@ -8,7 +11,7 @@ import { Protocols } from 'src/external/protocols';
   templateUrl: './blaster-event.component.html',
   styleUrls: ['./blaster-event.component.css']
 })
-export class BlasterEventComponent {
+export class BlasterEventComponent implements OnInit {
   @Input()
   event: BlasterEvent = {} as BlasterEvent;
 
@@ -27,7 +30,15 @@ export class BlasterEventComponent {
   @Output()
   onEdit = new EventEmitter<void>();
 
-  constructor() {}
+  eventValue = new FormControl('');
+
+  constructor(
+    public remotes: RemotesService
+  ) {}
+
+  ngOnInit(): void {
+    this.eventValue.setValue(this.isSleep(this.event) ? this.event.data.ms : '');
+  }
 
   isSignal(event: BlasterEvent): event is BlasterEvent<EventSignal> {
     return event.data instanceof EventSignal;
