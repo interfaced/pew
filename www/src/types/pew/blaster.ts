@@ -43,6 +43,7 @@ export class BlasterEvent<T = EventSleep|EventSignal> {
       protocol?: number;
       code?: string;
       nbits?: number;
+	  ms?: number;
     } = {
       'type': this.type
     };
@@ -52,6 +53,10 @@ export class BlasterEvent<T = EventSleep|EventSignal> {
       result['protocol'] = this.data.protocol;
       result['nbits'] = this.data.nbits;
     }
+
+	if (this.data instanceof EventSleep) {
+		result['ms'] = this.data.ms;
+	}
 
     return result;
   }
@@ -136,8 +141,7 @@ class IRBlaster {
           }
         }),
         catchError(() => of(null)),
-        filter(Boolean),
-        shareReplay(1)
+        filter(Boolean)
       );
   }
 

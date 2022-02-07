@@ -48,7 +48,7 @@ export class BlasterDetailsComponent implements OnInit {
         job.items.splice(this.activeJob.eventIdx, 0,
           new BlasterEvent({
             type: EventType.EVENT_SLEEP,
-            data: new EventSleep({ms: 150})
+            data: new EventSleep({ms: 100})
           })
         );
       }
