@@ -157,6 +157,7 @@ bool mqtt_connect()
 	}
 	Serial.printf("[MQTT] Successfully connected to [%s:%d]\n", cfg.mqtt_host, cfg.mqtt_port);
 
+	Serial.printf("[MQTT] Trying to set buffer capacity = %d\n", MQTT_BUFFER_CAPACITY);
 	mqttClient.setBufferSize(MQTT_BUFFER_CAPACITY);
 	Serial.printf("[MQTT] Buffer capacity = %d bytes\n", mqttClient.getBufferSize());
 
