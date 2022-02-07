@@ -63,4 +63,8 @@ export class BlastersService {
         this.stateService.state.next(AppState.NO_SERVER);
       });
   }
+
+  get server() {
+    return this.mqttServerUrl || environment.mqttServer;
+  }
 }
