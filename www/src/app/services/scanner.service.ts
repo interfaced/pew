@@ -57,9 +57,8 @@ export class ScannerService {
       .pipe(map((message: IMqttMessage) => {
         console.log('+', message.topic, message.payload + '');
         const deviceName = extractBlasterNameFromTopic(message.topic);
-        if (deviceName && this._clients.every(blaster => deviceName.indexOf(blaster.id) !== -1)) {
+        if (deviceName && !this._clients.find(blaster => deviceName === blaster.deviceName)) {
           try {
-            console.log(deviceName);
             const blaster = new IRBlaster(this._mqttService, deviceName, JSON.parse(message.payload + ''));
             this._clients.push(blaster);
             blaster.output$.subscribe(console.log);
