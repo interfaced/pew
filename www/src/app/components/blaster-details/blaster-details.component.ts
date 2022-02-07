@@ -44,16 +44,16 @@ export class BlasterDetailsComponent implements OnInit {
     const job = this.jobs[this.activeJob.jobIdx];
 
     if (job) {
-      job.items.splice(this.activeJob.eventIdx, 0, event);
-
-      if (isAutoSleep) {
-        job.items.splice(this.activeJob.eventIdx + 1, 0,
+      if (isAutoSleep && job.items.length) {
+        job.items.splice(this.activeJob.eventIdx, 0,
           new BlasterEvent({
             type: EventType.EVENT_SLEEP,
             data: new EventSleep({ms: 150})
           })
         );
       }
+
+      job.items.splice(this.activeJob.eventIdx + 1, 0, event);
 
       this.activeJob.eventIdx = job.items.length;
     }
