@@ -33,10 +33,10 @@
 			</button>
 		</div>
 	</div>
-	<div class="h-fit overflow-y-scroll">
+	<div class="h-fit overflow-y-scroll" *ngIf="isExpanded">
 		<div class="py-4 px-4 text-slate-600 bg-white cursor-pointer font-cond text-center border-y border-slate-200"
 		     (click)="isExpanded = !isExpanded"
-		     *ngIf="isExpanded && job.items.length > 10">
+		     *ngIf="job.items.length > 10">
 			<span class="align-middle text-lg icon-arrow-down transition-transform"
 			      [ngClass]="{'icon-arrow-down': !isExpanded, 'icon-arrow-up': isExpanded}"
 			></span>
