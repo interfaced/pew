@@ -30,7 +30,7 @@ IRsend irsend(PEW_TX_PIN);
 Config cfg = CFG_ZERO;
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient);
-DeviceState deviceState = DeviceState{Mode::MODE_TRANSPARENT,IRStatus::STATUS_IDLE};
+DeviceState deviceState = DEVICE_ZERO;
 
 bool wifi_connect();
 bool mqtt_connect();
@@ -64,6 +64,7 @@ void setup()
 		if (!mqtt_connect())
 			return;
 
+		PEW_init();
 		PEWMQTT_init();
 #ifdef PEW_ENABLE_RX
 		irrecv.enableIRIn();

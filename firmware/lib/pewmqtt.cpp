@@ -132,10 +132,18 @@ static void mqtt_recv(char* topic, uint8_t* payload, unsigned int length)
 			return;
 		}
 
+		bool containsMode = doc.containsKey("mode");
 		int mode = doc["mode"].as<int>();
-		if (mode >= Mode::MODE_WALL && mode < Mode::MODE_MAX)
+		if (containsMode && mode >= Mode::MODE_WALL && mode < Mode::MODE_MAX)
 		{
 			deviceState.mode = static_cast<Mode>(mode);
+		}
+
+		bool containsNet = doc.containsKey("net");
+		int net = doc["net"].as<int>();
+		if (containsNet && net >= NetStatus::NET_OFFLINE && net < NetStatus::NET_MAX)
+		{
+			PEW_apply_net_status(static_cast<NetStatus>(net));
 		}
 
 		sprintf(pub_topic, "/" TOPIC_ROOT "/%s::%s", cfg.id, cfg.dev_id);
@@ -259,6 +267,7 @@ static void state_as_json_str(char *buffer)
   sprintf(buffer, "{"
       "\"mode\":%d,"
 	  "\"ir\":%d,"
+	  "\"net\":%d,"
 	  "\"capabilities\":%s"
-      "}", deviceState.mode, deviceState.ir, capabilities);
+      "}", deviceState.mode, deviceState.ir, deviceState.net, capabilities);
 }

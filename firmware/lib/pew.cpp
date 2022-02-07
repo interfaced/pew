@@ -42,6 +42,28 @@ namespace _IRrecv
 static void enable_irrecv();
 static void send_signal(EventSignal* signal);
 
+void PEW_init()
+{
+	pinMode(PEW_NET_PIN, OUTPUT);
+	pinMode(PEW_POWER_PIN, OUTPUT);
+
+	PEW_apply_net_status(deviceState.net);
+}
+
+void PEW_apply_net_status(NetStatus status)
+{
+	if (status == NetStatus::NET_ONLINE)
+	{
+		digitalWrite(PEW_NET_PIN, HIGH);
+	}
+	else if (status == NetStatus::NET_OFFLINE)
+	{
+		digitalWrite(PEW_NET_PIN, LOW);
+	}
+
+	deviceState.net = static_cast<NetStatus>(status);
+}
+
 void PEW_loop()
 {
 	if (RAW_BUF_FULL)
