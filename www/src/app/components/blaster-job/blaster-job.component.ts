@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { BlasterJob } from 'src/types/job';
 import { EventSleep } from '../../../types/pew/blaster';
+import {CommandType} from '../../../types/pew/types';
 
 @Component({
   selector: 'app-blaster-job',
@@ -20,8 +21,14 @@ export class BlasterJobComponent implements OnInit {
   @Input()
   isActive: boolean = false;
 
+  @Input()
+  isBusy: boolean = false;
+
   @Output()
   activeIdxChanged = new EventEmitter<number>();
+
+  @Output()
+  sendIrCommand = new EventEmitter<number>();
 
   @Output()
   onRecordStatus = new EventEmitter<boolean>();
@@ -37,7 +44,7 @@ export class BlasterJobComponent implements OnInit {
 
   ngOnInit(): void {
     this.jobName.setValue(this.job.name);
-    this.isExpanded = !this.job?.items?.length
+    this.isExpanded = !this.job?.items?.length;
   }
 
   drop(event: CdkDragDrop<number, any>) {
@@ -54,6 +61,20 @@ export class BlasterJobComponent implements OnInit {
 
   edit(idx: number) {
     this.activeIdxChanged.emit(idx);
+  }
+
+  sendCommandPlay() {}
+
+  sendCommandResume() {
+    this.sendIrCommand.emit(CommandType.TX_RESUME);
+  }
+
+  sendCommandStop() {
+    this.sendIrCommand.emit(CommandType.TX_STOP);
+  }
+
+  sendCommandPause() {
+    this.sendIrCommand.emit(CommandType.TX_PAUSE);
   }
 
   get estimate(): number {

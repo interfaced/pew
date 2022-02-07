@@ -1,5 +1,5 @@
 import {IMqttMessage, MqttService} from 'ngx-mqtt';
-import {Protocols, EventType, FriendlyName, LocalTopics, BlasterTopics, BlasterStatus, EventSignal as RawEventSignal, EventSleep as RawEventSleep} from "./types";
+import {Protocols, EventType, FriendlyName, LocalTopics, BlasterTopics, BlasterStatus, EventSignal as RawEventSignal, EventSleep as RawEventSleep, CommandType} from "./types";
 import { BehaviorSubject, catchError, Observable, of, shareReplay } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 
@@ -119,14 +119,18 @@ class IRBlaster {
   }
 
   send(events: BlasterEventConfig) {
-    this._mqttService.unsafePublish(BlasterTopics.INPUT, JSON.stringify(events), {qos: 1, retain: true});
+    this._mqttService.unsafePublish(BlasterTopics.INPUT, JSON.stringify(events), {qos: 1});
   }
 
-  setStatus(status: Partial<BlasterStatus>): Observable<void> {
+  setStatus(status: Partial<BlasterStatus>) {
     return this._publishTopic(BlasterTopics.SET, status);
   }
 
-  requestStatus(): Observable<void> {
+  sendControlCommand(type: CommandType) {
+    return this._publishTopic(BlasterTopics.CONTROL, {type});
+  }
+
+  requestStatus() {
     return this._publishTopic(BlasterTopics.GET);
   }
 
@@ -146,8 +150,8 @@ class IRBlaster {
     return this._topics[topicName];
   }
 
-  _publishTopic(topic: BlasterTopics, message?: (object|[]|string)): Observable<void> {
-    return this._mqttService.publish(this._topic(topic), JSON.stringify(message || {}), {qos: 1, retain: true});
+  _publishTopic(topic: BlasterTopics, message?: (object|[]|string)) {
+    return this._mqttService.unsafePublish(this._topic(topic), JSON.stringify(message || {}), {qos: 1});
   }
 }
 

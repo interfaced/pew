@@ -29,7 +29,7 @@ class IRBlasterMock {
     this.status$.next({
       mode: (Math.floor(Math.random() * 2) == 0) ? ModeStatus.WALL : ModeStatus.TRANSPARENT,
       power: (Math.floor(Math.random() * 2) == 0) ? PowerStatus.ON : PowerStatus.OFF,
-      network: (Math.floor(Math.random() * 2) == 0) ? ((Math.floor(Math.random() * 2) == 0) ? NetworkStatus.ONLINE : NetworkStatus.OFFLINE) : NetworkStatus.ONLINE,
+      net: (Math.floor(Math.random() * 2) == 0) ? ((Math.floor(Math.random() * 2) == 0) ? NetworkStatus.ONLINE : NetworkStatus.OFFLINE) : NetworkStatus.ONLINE,
       ir: (Math.floor(Math.random() * 2) == 0) ? ((Math.floor(Math.random() * 2) == 0) ? IRStatus.IDLE : IRStatus.BUSY) : IRStatus.PAUSED
     } as BlasterStatus);
 

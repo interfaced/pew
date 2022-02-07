@@ -127,9 +127,8 @@ export enum PowerStatus {
 }
 
 export enum NetworkStatus {
-  ONLINE,
   OFFLINE,
-  OFF,
+  ONLINE,
   UNKNOWN
 }
 
@@ -171,7 +170,7 @@ export type EventSleep = {
 export type BlasterStatus = {
   mode: ModeStatus;
   power: PowerStatus;
-  network: NetworkStatus;
+  net: NetworkStatus;
   ir: IRStatus;
 }
 

@@ -25,8 +25,11 @@
 			>
 				<span class="icon-rec"></span>
 			</button>
-			<button class="text-sm p-1 w-8 h-8 leading-6 text-slate-600 border shadow hover:shadow-md bg-slate-100 border border-slate-200 rounded-lg hover:shadow-sky-500/50 bg-gradient-to-br to-slate-200 from-slate-100">
-				<span class="icon-play"></span>
+			<button
+					class="text-sm p-1 w-8 h-8 leading-6 text-slate-600 border shadow hover:shadow-md bg-slate-100 border border-slate-200 rounded-lg hover:shadow-sky-500/50 bg-gradient-to-br to-slate-200 from-slate-100"
+					(click)="!isBusy ? sendCommandPlay() : sendCommandStop()"
+			>
+				<span [ngClass]="{'icon-stop': isBusy, 'icon-play': !isBusy}"></span>
 			</button>
 		</div>
 	</div>

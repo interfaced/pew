@@ -13,8 +13,8 @@
 			                [glow]="applyGlowColor('power', status.power)"
 			                [status]="parseStatus('power', status.power)" icon="icon-power" [options]="powerModes" (statusChange)="onStatusChange('power', $event)" [isEnum]="true"></app-status-btn>
 			<app-status-btn label="Network"
-			                [glow]="applyGlowColor('network', status.network)"
-			                [status]="parseStatus('network', status.network)" icon="icon-lan" [options]="networkModes" (statusChange)="onStatusChange('network', $event)"></app-status-btn>
+			                [glow]="applyGlowColor('net', status.net)"
+			                [status]="parseStatus('net', status.net)" icon="icon-lan" [options]="networkModes" (statusChange)="onStatusChange('net', $event)"></app-status-btn>
 		</ng-container>
 	</div>
 </div>

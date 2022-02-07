@@ -18,7 +18,7 @@ export class BlasterComponent implements OnInit, OnChanges, OnDestroy {
   public status$: Observable<BlasterStatus> = of({
     mode: ModeStatus.UNKNOWN,
     power: PowerStatus.UNKNOWN,
-    network: NetworkStatus.UNKNOWN,
+    net: NetworkStatus.UNKNOWN,
     ir: IRStatus.UNKNOWN
   });
 
@@ -52,10 +52,6 @@ export class BlasterComponent implements OnInit, OnChanges, OnDestroy {
     {
       label: 'Offline',
       value: NetworkStatus.OFFLINE
-    },
-    {
-      label: 'Off',
-      value: NetworkStatus.OFF
     }
   ];
 
@@ -69,7 +65,7 @@ export class BlasterComponent implements OnInit, OnChanges, OnDestroy {
         return of({
           mode: ModeStatus.UNKNOWN,
           power: PowerStatus.UNKNOWN,
-          network: NetworkStatus.UNKNOWN,
+          net: NetworkStatus.UNKNOWN,
           ir: IRStatus.UNKNOWN
         })
       }),
@@ -100,7 +96,7 @@ export class BlasterComponent implements OnInit, OnChanges, OnDestroy {
     if (status === 'power') {
       return this.powerModes.find((m) => m.value === value)?.label || '-';
     }
-    if (status === 'network') {
+    if (status === 'net') {
       return this.networkModes.find((m) => m.value === value)?.label || '-';
     }
 
@@ -130,11 +126,10 @@ export class BlasterComponent implements OnInit, OnChanges, OnDestroy {
       }
     }
 
-    if (status === 'network') {
+    if (status === 'net') {
       return {
         'shadow-sky-500 hover:shadow-sky-500': value === NetworkStatus.ONLINE,
-        'shadow-orange-500 hover:shadow-orange-500': value === NetworkStatus.OFFLINE,
-        'shadow-red-500 hover:shadow-red-500': value === NetworkStatus.OFF
+        'shadow-orange-500 hover:shadow-orange-500': value === NetworkStatus.OFFLINE
       }
     }
 

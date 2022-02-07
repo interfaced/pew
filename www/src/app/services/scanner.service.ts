@@ -72,7 +72,7 @@ export class ScannerService {
 
     const deleteClient$ = this._mqttService.observe('/irblaster/+/disconnect')
       .pipe(map((message: IMqttMessage) => {
-        console.log('+', message.topic, message.payload + '');
+        console.log('-', message.topic, message.payload + '');
         const deviceName = extractBlasterNameFromTopic(message.topic);
         const index = this._clients.findIndex((client) => deviceName.indexOf(client.id) !== -1);
         if (index >= 0) {
@@ -87,7 +87,7 @@ export class ScannerService {
     this._clients$ = merge(addClient$, deleteClient$)
       .pipe(takeUntil(this._renew$));
 
-    this._mqttService.unsafePublish('/irblaster/ping', '', { qos: 1, retain: true });
+    this._mqttService.unsafePublish('/irblaster/ping', '', { qos: 1 });
   }
 
   get clients$() {

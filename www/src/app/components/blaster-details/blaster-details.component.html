@@ -7,8 +7,14 @@
 			Create new Scenario or Import JSON to here
 		</div>
 		<div class="mb-4" *ngFor="let job of jobs; index as idx" (click)="onJobActivate(idx)">
-			<app-blaster-job [job]="job" [isActive]="idx === activeJob.jobIdx" [activeIdx]="activeJob.eventIdx"
-			                 (activeIdxChanged)="onEditEvent($event, job)" (onRecordStatus)="onRecordStatusChange($event)">
+			<app-blaster-job
+					[job]="job"
+					[isActive]="idx === activeJob.jobIdx"
+					[isBusy]="isBusy()"
+					[activeIdx]="activeJob.eventIdx"
+					(sendIrCommand)="onIrCommand($event)"
+					(activeIdxChanged)="onEditEvent($event, job)"
+					(onRecordStatus)="onRecordStatusChange($event)">
 			</app-blaster-job>
 		</div>
 
