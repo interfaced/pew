@@ -12,7 +12,7 @@
 		</div>
 
 		<div class="shadow hover:shadow-lg transition-shadow rounded-2xl w-full overflow-hidden bg-slate-50 mt-4">
-			<div class="py-4 px-4 text-gray-600 bg-white cursor-pointer font-cond text-center"
+			<div class="py-4 px-4 text-slate-600 bg-white cursor-pointer font-cond text-center"
 			     (click)="addJob()">
 				<span class="align-middle text-lg icon-arrow-down transition-transform icon-add"></span>
 			</div>
@@ -20,8 +20,8 @@
 	</div>
 	<div class="flex flex-col gap-y-3" #stickToMe>
 		<div>
-			<label for="remotes" class="block mb-2 text-sm font-medium font-cond text-gray-900">Remote layout</label>
-			<select id="remotes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-slate-500 focus:border-slate-500 block w-full p-2.5 shadow hover:shadow-lg transition-shadow cursor-pointer" [formControl]="activeRemote">
+			<label for="remotes" class="block mb-2 text-sm font-medium font-cond text-slate-900">Remote layout</label>
+			<select id="remotes" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-slate-500 focus:border-slate-500 block w-full p-2.5 shadow hover:shadow-lg transition-shadow cursor-pointer" [formControl]="activeRemote">
 				<option *ngFor="let remote of remotes.list; first as isFirst" [value]="remote.id">{{remote.label}}</option>
 			</select>
 		</div>

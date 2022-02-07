@@ -6,7 +6,7 @@
 >
 	<div class="flex items-center p-4 justify-between bg-white">
 		<input type="text" id="mqtt-server"
-		       class="form-input rounded-lg border-transparent appearance-none border border-gray-300 py-2 px-4 mr-1 bg-white text-gray-700 placeholder-gray-400 hover:shadow text-base focus:outline-none focus:ring-1 focus:ring-slate-600 focus:border-transparent"
+		       class="form-input rounded-lg border-transparent appearance-none border border-slate-300 py-2 px-4 mr-1 bg-white text-slate-700 placeholder-slate-400 hover:shadow text-base focus:outline-none focus:ring-1 focus:ring-slate-600 focus:border-transparent"
 		       placeholder="192.168.10.10"
 		       [formControl]="jobName"
 		>
@@ -33,14 +33,14 @@
 				cdkDrag
 		></app-blaster-event>
 	</div>
-	<div class="py-4 px-4 text-gray-600 bg-white cursor-pointer font-cond text-center border-y border-slate-200"
+	<div class="py-4 px-4 text-slate-600 bg-white cursor-pointer font-cond text-center border-y border-slate-200"
 		(click)="isExpanded = !isExpanded">
 		<span class="align-middle text-lg icon-arrow-down transition-transform"
 		      [ngClass]="{'icon-arrow-down': !isExpanded, 'icon-arrow-up': isExpanded}"
 		></span>
 		{{isExpanded ? 'Collapse' : 'Expand'}}
 	</div>
-	<div class="py-4 px-4 text-gray-600 flex items-center justify-between bg-white cursor-pointer">
+	<div class="py-4 px-4 text-slate-600 flex items-center justify-between bg-white cursor-pointer">
 		<div class="actions flex items-center font-cond justify-between gap-2">
 			Total events: {{job.items.length}} | Estimate time: {{estimate | duration}}
 		</div>
