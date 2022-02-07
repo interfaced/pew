@@ -103,6 +103,10 @@ class IRBlaster {
     return this._publishTopic(BlasterTopics.GET);
   }
 
+  get deviceName(): string {
+    return this._deviceName;
+  }
+
   get name(): string {
     return this._friendlyName;
   }
