@@ -92,7 +92,10 @@ void loop()
 	if (cfg.configured)
 	{
 		if (!mqttClient.connected())
-			mqtt_connect();
+		{
+			if (mqtt_connect())
+				PEWMQTT_init();
+		}
 
 		mqttClient.loop();
 #ifdef PEW_ENABLE_RX
