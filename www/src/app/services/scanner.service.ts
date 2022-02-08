@@ -8,7 +8,8 @@ import IRBlaster from 'src/types/pew/blaster';
   providedIn: 'root'
 })
 export class ScannerService {
-  private isFirstConnect = true;
+  private isFirstConnect: boolean = true;
+  private connectTimeout: number = NaN;
   private _clients: IRBlaster[] = [];
   private _clients$: Observable<boolean> = of(false);
   private _renew$ = new Subject();
@@ -31,6 +32,13 @@ export class ScannerService {
         .subscribe((error) => {
           reject(error);
         });
+
+      if (this.connectTimeout) {
+        clearInterval(this.connectTimeout);
+      }
+      this.connectTimeout = window.setTimeout(() => {
+        reject(new Error('Connection timeout'));
+      }, 5000);
 
       if (!this.isFirstConnect) {
         this._mqttService.disconnect(true);

@@ -55,7 +55,7 @@ export class BlastersService {
       return Promise.resolve();
     }
 
-    return this.scannerService.connect(this.mqttServerUrl)
+    return this.scannerService.connect(this.mqttServerUrl || environment.mqttServer)
       .then(() => {
         this.stateService.state.next(AppState.READY);
       })
