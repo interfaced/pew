@@ -1,0 +1,27 @@
+.event:hover > .insert-before,
+.event:hover > .insert-after {
+    @apply h-4;
+}
+
+.event:hover .count {
+    @apply opacity-100 -ml-12;
+}
+
+.event:hover > .insert-before:hover,
+.event:hover > .insert-after:hover {
+    @apply h-12;
+}
+
+.event:hover > .insert-before:hover *,
+.event:hover > .insert-after:hover * {
+    @apply block;
+}
+
+.event:hover .actions {
+    @apply flex;
+}
+
+.cdk-drop-list-dragging .event:hover > .insert-before,
+.cdk-drop-list-dragging .event:hover > .insert-after {
+    @apply hidden h-0;
+}

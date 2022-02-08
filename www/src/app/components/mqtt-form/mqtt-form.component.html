@@ -1,0 +1,17 @@
+<div class="relative w-fit md:w-1/2 m-auto container mt-10">
+	<img class="w-full" src="assets/img/blobs.png" alt="502"/>
+	<div class="absolute inset-0 flex items-center justify-center">
+		<form class="flex flex-col gap-y-2" [formGroup]="inputGroup" (ngSubmit)="onSubmit()">
+			<label for="mqtt-server" class="block text-lg text-slate-700 font-cond">MQTT Server</label>
+			<div class="relative">
+				<div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+					<span class="icon-mqtt text-slate-300"></span>
+				</div>
+				<input type="text" id="mqtt-server" class="form-input bg-slate-50 focus:ring-blue-100 border border-slate-300 text-slate-900 text-sm rounded-lg focus:shadow focus:shadow-sky-500 block w-full pl-10 p-2.5" placeholder="192.168.10.10"
+				       formControlName="server"
+				>
+			</div>
+			<button class="bg-blue-600 text-sm text-white font-semibold py-2 px-4 rounded-lg shadow hover:shadow-md hover:shadow-sky-500" type="submit">GO</button>
+		</form>
+	</div>
+</div>

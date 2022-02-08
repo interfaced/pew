@@ -1,0 +1,32 @@
+:host:hover > .insert-before,
+:host:hover > .insert-after {
+    @apply h-4;
+}
+
+:host:hover .count {
+    @apply opacity-100 -ml-12;
+}
+
+:host:hover > .insert-before:hover .events-to-add,
+:host:hover > .insert-after:hover .events-to-add {
+    @apply flex;
+}
+
+:host:hover > .insert-before .icon-add,
+:host:hover > .insert-after .icon-add {
+    @apply block;
+}
+
+:host:hover > .insert-before:hover *,
+:host:hover > .insert-after:hover * {
+    @apply block;
+}
+
+:host:hover .actions {
+    @apply flex;
+}
+
+.cdk-drop-list-dragging :host:hover > .insert-before *,
+.cdk-drop-list-dragging :host:hover > .insert-after * {
+    @apply hidden;
+}

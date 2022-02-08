@@ -1,0 +1,62 @@
+<div class="insert-before h-0 w-0 m-auto flex items-center justify-center gap-3 transition-all duration-300 ease-in">
+	<span class="hidden icon-add rounded-full bg-white shadow p-2 text-slate-500"></span>
+	<div class="events-to-add hidden absolute  rounded-md inset-x flex flex-row gap-2 bg-white shadow-xl border border-slate-200 py-2 px-4 items-center">
+		<span class="font-cond">Insert before</span>
+		<button class="text-sm p-1 w-8 h-8 leading-6 text-slate-600 border shadow hover:shadow-md border border-slate-200 rounded-lg bg-white bg-gradient-to-br to-slate-200 from-slate-100">
+			<span class="icon-grid"></span>
+		</button>
+		<button class="text-sm p-1 w-8 h-8 leading-6 text-slate-600 border shadow hover:shadow-md border border-slate-200 rounded-lg bg-white bg-gradient-to-br to-slate-200 from-slate-100">
+			<span class="icon-time-quarterpast"></span>
+		</button>
+	</div>
+</div>
+<div class="text-slate-600 flex items-center justify-between bg-white cursor-pointer px-4"
+     [ngClass]="{
+        'border-b border-slate-200': !isLast,
+        'py-4': isSignal(event),
+        'py-2': !isSignal(event)
+     }"
+>
+	<span class="count opacity-0 absolute ml-0 mx-4 transition-all duration-300 ease-out drop-shadow font-cond"
+	      *ngIf="order !== -1"
+	>
+		{{order | count}}
+	</span>
+	<p class="leading-6 flex items-center gap-3 flex-grow" *ngIf="isSignal(event)">
+		<span class="icon-grid"></span>
+		<span class="bg-slate-500 font-bold text-white text-center py-1 px-2 text-xs rounded">{{getProtocol(event)}}</span>
+		<span class="font-mono">Key: {{event.data.code | keyCode:(remotes.active$ | async)}}</span>
+	</p>
+	<p class="text leading-5 flex items-center gap-3 flex-grow text-slate-400" *ngIf="isSleep(event)">
+		<span class="icon-time-quarterpast"></span>
+		<span class="font-cond">Timeout (ms):
+			<input class="h-8 form-input rounded-lg border-transparent appearance-none border py-2 px-4 mr-1 bg-white text-slate-400 placeholder-slate-400 hover:shadow text-base focus:outline-none focus:ring-1 focus:ring-slate-600 focus:border-transparent"
+			       type="number" step="50" placeholder="100"
+			       [formControl]="eventValue"/>
+		</span>
+		</p>
+	<div class="flex items-center gap-2">
+		<div class="actions hidden flex items-center justify-between gap-2">
+			<button class="text-sm p-1 w-8 h-8 leading-6 text-slate-600 border shadow hover:shadow-md bg-slate-100 border border-slate-200 rounded-lg hover:shadow-green-500/50"
+			        (click)="onClone.emit()">
+				<span class="icon-duplicate"></span>
+			</button>
+			<button class="text-sm p-1 w-8 h-8 leading-6 text-slate-600 border shadow hover:shadow-md bg-slate-100 border border-slate-200 rounded-lg hover:shadow-red-500/50"
+			        (click)="onDelete.emit()">
+				<span class="icon-trash"></span>
+			</button>
+		</div>
+	</div>
+</div>
+<div class="insert-after h-0 w-0 m-auto flex items-center justify-center gap-3 transition-all duration-300 ease-in">
+	<span class="hidden icon-add rounded-full bg-white shadow p-2 text-slate-500"></span>
+	<div class="events-to-add hidden absolute rounded-md inset-x flex flex-row gap-2 bg-white shadow-xl border border-slate-200 py-2 px-4 items-center">
+		<span class="font-cond">Insert after</span>
+		<button class="text-sm p-1 w-8 h-8 leading-6 text-slate-600 border shadow hover:shadow-md border border-slate-200 rounded-lg bg-white bg-gradient-to-br to-slate-200 from-slate-100">
+			<span class="icon-grid"></span>
+		</button>
+		<button class="text-sm p-1 w-8 h-8 leading-6 text-slate-600 border shadow hover:shadow-md border border-slate-200 rounded-lg bg-white bg-gradient-to-br to-slate-200 from-slate-100">
+			<span class="icon-time-quarterpast"></span>
+		</button>
+	</div>
+</div>

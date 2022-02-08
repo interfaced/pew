@@ -1,0 +1,51 @@
+<div class="min-h-screen gap-3 flex flex-row flex-wrap">
+	<div>
+		<app-blaster [blaster]="blaster"></app-blaster>
+	</div>
+	<div class="flex-1">
+		<div class="flex h-1/5 min-h-fit justify-center items-center font-cond border-2 border-dashed rounded-xl border-slate-400 mb-4" *ngIf="!jobs.length">
+			Create new Scenario or Import JSON to here
+		</div>
+		<div class="mb-4" *ngFor="let job of jobs; index as idx" (click)="onJobActivate(idx)">
+			<app-blaster-job
+					[job]="job"
+					[isActive]="idx === activeJob.jobIdx"
+					[isBusy]="isBusy()"
+					[activeIdx]="activeJob.eventIdx"
+					(sendIrCommand)="onIrCommand($event)"
+					(activeIdxChanged)="onEditEvent($event, job)"
+					(onRecordStatus)="onRecordStatusChange($event)"
+					(onRun)="onRun(job)"
+			>
+			</app-blaster-job>
+		</div>
+
+		<div class="shadow hover:shadow-lg transition-shadow rounded-2xl w-full overflow-hidden bg-slate-50 mt-4">
+			<div class="py-4 px-4 text-slate-600 bg-white cursor-pointer font-cond text-center"
+			     (click)="addJob()">
+				<span class="align-middle text-lg icon-arrow-down transition-transform icon-add"></span>
+			</div>
+		</div>
+	</div>
+	<div class="flex flex-col gap-y-3" #stickToMe>
+		<div>
+			<label for="remotes" class="block mb-2 text-sm font-medium font-cond text-slate-900">Remote layout</label>
+			<select id="remotes" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-slate-500 focus:border-slate-500 block w-full p-2.5 shadow hover:shadow-lg transition-shadow cursor-pointer" [formControl]="activeRemote">
+				<option *ngFor="let remote of remotes.list; first as isFirst" [value]="remote.id">{{remote.label}}</option>
+			</select>
+		</div>
+		<div class="flex flex-col gap-y-2"
+			 ngxSticky
+		     classWhenSticky="pt-4"
+		     [triggerOn]="'trigger-on'"
+		     [scrollContainer]="stickToMe"
+		>
+			<div class="w-40 rounded-2xl bg-white p-4 drop-shadow font-cond" id="trigger-on">
+				Input to: <div>{{activeJobName}}</div>
+			</div>
+			<ng-container *ngIf="remotes.active$ | async as remote">
+				<app-remote [remote]="remote" (onPress)="add($event)"></app-remote>
+			</ng-container>
+		</div>
+	</div>
+</div>

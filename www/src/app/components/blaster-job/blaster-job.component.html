@@ -1,0 +1,74 @@
+<div class="rounded-2xl w-full overflow-hidden bg-slate-50 transition-all shadow"
+     [ngClass]="{
+	     'shadow': !isExpanded,
+	     'shadow-lg': isExpanded,
+	     'outline-0': !isActive,
+	     'outline outline-sky-300 shadow-sky-500/20': isActive
+     }"
+     cdkDropList
+     cdkDropListOrientation="vertical"
+     (cdkDropListDropped)="drop($event)"
+>
+	<div class="flex items-center p-4 justify-between bg-white">
+		<input type="text" id="mqtt-server"
+		       class="form-input font-cond rounded-lg border-transparent appearance-none border border-slate-300 py-2 px-4 mr-1 bg-white text-slate-700 placeholder-slate-400 hover:shadow text-base focus:outline-none focus:ring-1 focus:ring-slate-600 focus:border-transparent"
+		       placeholder="192.168.10.10"
+		       [formControl]="jobName"
+		>
+		<div class="flex gap-2">
+			<button class="text-sm p-1 w-8 h-8 leading-6 text-slate-600 border shadow hover:shadow-md bg-slate-100 border border-slate-200 rounded-lg bg-gradient-to-br to-slate-200 from-slate-100">
+				<span class="icon-download"></span>
+			</button>
+			<button
+					class="text-sm p-1 w-8 h-8 leading-6 text-slate-600 border shadow hover:shadow-md border border-slate-200 rounded-lg bg-gradient-to-br to-slate-200 from-slate-100 hover:shadow-red-500/50"
+					(click)="recordToggle()"
+			>
+				<span class="icon-rec"></span>
+			</button>
+			<button
+					class="text-sm p-1 w-8 h-8 leading-6 text-slate-600 border shadow hover:shadow-md bg-slate-100 border border-slate-200 rounded-lg hover:shadow-sky-500/50 bg-gradient-to-br to-slate-200 from-slate-100"
+					(click)="!isBusy ? sendCommandPlay() : sendCommandStop()"
+			>
+				<span [ngClass]="{'icon-stop': isBusy, 'icon-play': !isBusy}"></span>
+			</button>
+		</div>
+	</div>
+	<div class="h-fit overflow-y-scroll" *ngIf="isExpanded">
+		<div class="py-4 px-4 text-slate-600 bg-white cursor-pointer font-cond text-center border-y border-slate-200"
+		     (click)="isExpanded = !isExpanded"
+		     *ngIf="job.items.length > 10">
+			<span class="align-middle text-lg icon-arrow-down transition-transform"
+			      [ngClass]="{'icon-arrow-down': !isExpanded, 'icon-arrow-up': isExpanded}"
+			></span>
+			{{isExpanded ? 'Collapse' : 'Expand'}}
+		</div>
+		<app-blaster-event
+				*ngFor="let event of job.items; index as idx"
+				[order]="idx"
+				(onClone)="clone(idx)"
+				(onDelete)="delete(idx)"
+				(onEdit)="edit(idx)"
+				[event]="event"
+				cdkDrag
+		></app-blaster-event>
+	</div>
+	<div class="py-4 px-4 text-slate-600 bg-white cursor-pointer font-cond text-center border-y border-slate-200"
+		(click)="isExpanded = !isExpanded"
+		 *ngIf="job.items.length">
+		<span class="align-middle text-lg icon-arrow-down transition-transform"
+		      [ngClass]="{'icon-arrow-down': !isExpanded, 'icon-arrow-up': isExpanded}"
+		></span>
+		{{isExpanded ? 'Collapse' : 'Expand'}}
+	</div>
+	<div class="py-2 px-2 text-slate-600 bg-white cursor-pointer font-cond text-center border-y border-slate-200"
+		 *ngIf="!job.items.length">
+		<div class="flex h-20 min-h-fit justify-center items-center font-cond border-2 border-dashed rounded border-slate-200">
+			Click this job and start pressing Remote <span class="icon-arrow-right"></span>
+		</div>
+	</div>
+	<div class="py-4 px-4 text-slate-600 flex items-center justify-between bg-white cursor-pointer">
+		<div class="actions flex items-center font-cond justify-between gap-2">
+			Total events: {{job.items.length}} | Estimate time: {{estimate | duration}}
+		</div>
+	</div>
+</div>
