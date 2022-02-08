@@ -1,5 +1,7 @@
 # PEW
 
+<img src="https://user-images.githubusercontent.com/5644712/152895296-a4d8e555-7c24-440f-aa41-4fc5790dde6a.png" width="400" />
+
 ## Cloning repository
 
 ```
